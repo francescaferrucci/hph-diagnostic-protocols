@@ -29,11 +29,6 @@
         </p>
       </section>
 
-
-      <div class="quick-actions">
-        <a class="checklist-button" href="#petnurse-checklist">📋 Open PetNurse Checklist</a>
-      </div>
-
       <div class="content-grid">
         <section class="main-flow">
           <div class="level-row">
@@ -58,30 +53,71 @@
 
               <div class="arrow">↓</div>
 
-              <article class="box blue fill-blue">
-                <h3>Confirm Elevation Before Escalating</h3>
-                <p>Rule out pre-analytical error, sample quality issues, lipemia/hemolysis, transcription error, and isolated mild elevations. If stable and no protocol trigger applies, document findings and route the next-step request for doctor approval.</p>
-              </article>
+              <section class="decision-workflow">
+                <h2>Confirm Elevation Before Escalating</h2>
 
-              <div class="two-col">
-                <article class="box green fill-green">
-                  <h3>Protocol-Approved Automatic Testing</h3>
-                  <ul>
-                    <li>Use only if the patient meets a current presenting-complaint trigger, such as age/appetite criteria, productive vomiting &gt;48 hr, diarrhea criteria, PU/PD, pale mucous membranes, respiratory distress, bleeding/toxin/pyometra, or blocked-cat protocol.</li>
-                    <li>If no trigger applies, do not add CBC, chemistry, urinalysis, bile acids, T4, imaging, or infectious testing without approval.</li>
-                  </ul>
-                </article>
-                <article class="box navy soft">
-                  <h3>Physiologic / Non-Hepatic Possibilities</h3>
-                  <ul>
-                    <li>Young/growing patient</li>
-                    <li>Late pregnancy or lactation</li>
-                    <li>Recent bone fracture or orthopedic surgery</li>
-                    <li>Glucocorticoid or anticonvulsant medications</li>
-                    <li>Hyperthyroidism in cats</li>
-                  </ul>
-                </article>
-              </div>
+                <div class="decision-card">
+                  <div class="decision-step">
+                    <div class="step-label">STEP 1</div>
+                    <div class="step-content">
+                      <h3>Verify ALP Elevation</h3>
+                      <ul>
+                        <li>☐ Confirm ALP value and trend.</li>
+                        <li>☐ Review ALT/AST/GGT/bilirubin.</li>
+                        <li>☐ Check for lipemia or hemolysis.</li>
+                        <li>☐ Rule out sample or transcription error.</li>
+                        <li>☐ Assess whether elevation is mild or isolated.</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="workflow-arrow">↓</div>
+
+                  <div class="decision-step">
+                    <div class="step-label">STEP 2</div>
+                    <div class="step-content">
+                      <h3>Screen for Physiologic / Non-Hepatic Possibilities</h3>
+                      <ul>
+                        <li>☐ Young/growing patient.</li>
+                        <li>☐ Late pregnancy or lactation.</li>
+                        <li>☐ Recent bone fracture or orthopedic surgery.</li>
+                        <li>☐ Glucocorticoid or anticonvulsant medication.</li>
+                        <li>☐ Hyperthyroidism in cats.</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="workflow-arrow">↓</div>
+
+                  <div class="decision-step">
+                    <div class="step-label">THEN</div>
+                    <div class="step-content">
+                      <h3>Determine Protocol Eligibility</h3>
+                      <p class="decision-text">Does the patient meet a current Hannah diagnostic testing trigger?</p>
+
+                      <div class="if-then-grid">
+                        <div class="if-box green">
+                          <h4>YES</h4>
+                          <ul>
+                            <li>☐ Proceed only with protocol-approved testing.</li>
+                            <li>☐ Follow the presenting complaint workflow.</li>
+                            <li>☐ Document all testing performed.</li>
+                          </ul>
+                        </div>
+
+                        <div class="if-box red">
+                          <h4>NO</h4>
+                          <ul>
+                            <li>☐ Do not add CBC, chemistry, UA, bile acids, T4, imaging, or infectious testing.</li>
+                            <li>☐ Submit Diagnostic & Requisition request.</li>
+                            <li>☐ Route case for doctor approval.</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
             </div>
           </div>
 
@@ -169,77 +205,6 @@
           </section>
         </aside>
       </div>
-
-
-     <section class="decision-workflow">
-
-      <h2>Confirm Elevation Before Escalating</h2>
-    
-      <div class="decision-card blue">
-        <div class="decision-step">
-          <div class="step-label">STEP 1</div>
-          <div class="step-content">
-            <h3>Verify ALP Elevation</h3>
-            <ul>
-              <li>☐ Confirm ALP value and trend</li>
-              <li>☐ Review ALT/AST/GGT/bilirubin</li>
-              <li>☐ Check for lipemia or hemolysis</li>
-              <li>☐ Rule out sample/transcription error</li>
-              <li>☐ Assess whether elevation is mild or isolated</li>
-            </ul>
-          </div>
-        </div>
-    
-        <div class="workflow-arrow">↓</div>
-    
-        <div class="decision-step">
-          <div class="step-label">IF YES</div>
-          <div class="step-content">
-            <h3>Possible Physiologic / Non-Hepatic Cause</h3>
-            <ul>
-              <li>☐ Young/growing patient</li>
-              <li>☐ Pregnancy or lactation</li>
-              <li>☐ Recent fracture or orthopedic surgery</li>
-              <li>☐ Glucocorticoid or anticonvulsant medication</li>
-              <li>☐ Hyperthyroidism in cats</li>
-            </ul>
-          </div>
-        </div>
-    
-        <div class="workflow-arrow">↓</div>
-    
-        <div class="decision-step">
-          <div class="step-label">THEN</div>
-          <div class="step-content">
-            <h3>Determine Protocol Eligibility</h3>
-            <p class="decision-text">
-              Does the patient meet a current Hannah diagnostic testing trigger?
-            </p>
-    
-            <div class="if-then-grid">
-              <div class="if-box green">
-                <h4>YES</h4>
-                <ul>
-                  <li>☐ Proceed only with protocol-approved testing</li>
-                  <li>☐ Follow presenting complaint workflow</li>
-                  <li>☐ Document all testing performed</li>
-                </ul>
-              </div>
-    
-              <div class="if-box red">
-                <h4>NO</h4>
-                <ul>
-                  <li>☐ Do not add CBC, chemistry, UA, bile acids, T4, imaging, or infectious testing</li>
-                  <li>☐ Submit Diagnostic & Requisition request</li>
-                  <li>☐ Route case for doctor approval</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-    
-      </div>
-    </section>
 
       <footer class="footer">
         <span>TOTAL LIFETIME CARE™</span>
