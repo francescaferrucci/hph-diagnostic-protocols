@@ -1,1813 +1,219 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editable Invoice Modal</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Modal Styles */
-        .invoice-modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: none;
-            justify-content: center;
-            align-items: flex-start;
-            z-index: 1000;
-            padding: 20px;
-            overflow-y: auto;
-        }
-        
-        .invoice-modal {
-            background-color: white;
-            width: 90%;
-            max-width: 1000px;
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            animation: modalSlideIn 0.3s ease-out;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        /* Credit/Discount Modal Overlay */
-        .credit-modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-        }
-        
-        .credit-modal {
-            background-color: white;
-            width: 90%;
-            max-width: 500px;
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            animation: modalSlideIn 0.3s ease-out;
-            overflow: hidden;
-        }
-        
-        /* Modal Header */
-        .modal-header {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-            color: white;
-            padding: 20px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .modal-title {
-            font-size: 24px;
-            font-weight: 600;
-            margin: 0;
-        }
-        
-        .close-modal {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: background-color 0.2s;
-        }
-        
-        .close-modal:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-        
-        /* Modal Body */
-        .modal-body {
-            padding: 30px;
-            max-height: 70vh;
-            overflow-y: auto;
-        }
-        
-        /* Original Invoice Styles (Modified for Modal) */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            color: #2c3e50;
-            line-height: 1.5;
-        }
-        
-        .container {
-            max-width: 100%;
-            margin: 0 auto;
-        }
-        
-        /* Header Section */
-        .header-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #3498db;
-        }
-        
-        .logo-area {
-            width: 120px;
-            height: 60px;
-            background-color: #000;
-            color: #3498db;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            text-align: center;
-            padding: 8px;
-            border-radius: 4px;
-            font-weight: 500;
-        }
-        
-        .clinic-info {
-            text-align: right;
-            font-size: 13px;
-            line-height: 1.6;
-            color: #555;
-        }
-        
-        /* Main Invoice Title */
-        .main-title {
-            text-align: center;
-            font-size: 28px;
-            font-weight: 300;
-            letter-spacing: 2px;
-            margin: 20px 0 30px 0;
-            color: #2c3e50;
-            text-transform: uppercase;
-        }
-        
-        /* Two Column Layout */
-        .content-columns {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 25px;
-            gap: 20px;
-        }
-        
-        .member-column {
-            width: 55%;
-        }
-        
-        .invoice-column {
-            width: 45%;
-        }
-        
-        /* Section Headers */
-        .section-header {
-            font-size: 18px;
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #ecf0f1;
-            position: relative;
-        }
-        
-        .section-header:after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -2px;
-            width: 60px;
-            height: 2px;
-            background-color: #3498db;
-        }
-        
-        /* Editable Fields */
-        .editable-field {
-            position: relative;
-            min-height: 20px;
-        }
-        
-        .editable-field .static-text {
-            padding: 8px 12px;
-            border: 1px solid transparent;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .editable-field .static-text:hover {
-            background-color: #f8fafc;
-            border-color: #e0e6ed;
-        }
-        
-        .editable-field .edit-input {
-            width: 100%;
-            padding: 8px 12px;
-            border: 2px solid #3498db;
-            border-radius: 4px;
-            font-size: 14px;
-            font-family: inherit;
-            display: none;
-        }
-        
-        .editable-field.editing .static-text {
-            display: none;
-        }
-        
-        .editable-field.editing .edit-input {
-            display: block;
-        }
-        
-        /* Member Information Styling */
-        .member-details {
-            background-color: #f8fafc;
-            border: 1px solid #e8edf2;
-            border-radius: 6px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .info-line {
-            margin-bottom: 10px;
-        }
-        
-        .info-label {
-            font-weight: 600;
-            color: #5d6d7e;
-            display: block;
-            margin-bottom: 3px;
-            font-size: 13px;
-        }
-        
-        /* Invoice Details Card */
-        .invoice-details-card {
-            background-color: white;
-            border: 1px solid #e0e6ed;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        
-        .detail-item {
-            margin-bottom: 15px;
-        }
-        
-        .detail-label {
-            font-weight: 600;
-            color: #5d6d7e;
-            font-size: 13px;
-            display: block;
-            margin-bottom: 5px;
-        }
-        
-        .detail-value {
-            font-size: 14px;
-            color: #2c3e50;
-            padding: 10px;
-            background-color: #f8fafc;
-            border-radius: 4px;
-            border-left: 3px solid #3498db;
-        }
-        
-        /* Balance Section */
-        .balance-section {
-            background-color: #f8fafc;
-            border: 1px solid #dbe4ed;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 25px 0;
-        }
-        
-        .balance-header {
-            font-size: 16px;
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 15px;
-        }
-        
-        .balance-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px dashed #dbe4ed;
-            font-size: 14px;
-        }
-        
-        .balance-row:last-child {
-            border-bottom: none;
-            font-weight: 600;
-            font-size: 15px;
-            color: #2c3e50;
-            padding-top: 12px;
-            margin-top: 5px;
-        }
-        
-        /* Table Section with Inline Editing */
-        .table-container {
-            margin: 30px 0 25px 0;
-        }
-        
-        .table-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #ecf0f1;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 15px 0 20px 0;
-            font-size: 14px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 1px 8px rgba(0,0,0,0.05);
-        }
-        
-        thead {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-            color: white;
-        }
-        
-        th {
-            padding: 14px 15px;
-            text-align: left;
-            font-weight: 600;
-            font-size: 13px;
-        }
-        
-        td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #ecf0f1;
-            position: relative;
-        }
-        
-        tbody tr:hover {
-            background-color: #f8fafc;
-        }
-        
-        tbody tr:nth-child(even) {
-            background-color: #fafcfd;
-        }
-        
-        /* Line Item Adjustment Controls */
-        .line-item-adjustment {
-            display: none;
-            background-color: #f8fafc;
-            padding: 10px;
-            margin-top: 5px;
-            border-radius: 6px;
-            border-left: 3px solid #51b5e0;
-            animation: slideDown 0.2s ease-out;
-        }
-        
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .adjustment-controls {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .adjust-type-toggle {
-            display: flex;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        
-        .adjust-btn {
-            background-color: #f0f0f0;
-            border: none;
-            padding: 6px 12px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-        
-        .adjust-btn.active {
-            background-color: #51b5e0;
-            color: white;
-        }
-        
-        .adjust-btn.plus.active {
-            background-color: #1eb53a;
-        }
-        
-        .adjust-btn.minus.active {
-            background-color: #8c2633;
-        }
-        
-        .amount-input {
-            width: 80px;
-            padding: 6px 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            text-align: right;
-        }
-        
-        .reason-select {
-            padding: 6px 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            min-width: 120px;
-        }
-        
-        .adjust-actions {
-            display: flex;
-            gap: 5px;
-        }
-        
-        .action-btn {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 13px;
-        }
-        
-        .apply-btn {
-            background-color: #51b5e0;
-            color: white;
-        }
-        
-        .cancel-btn {
-            background-color: #e0e0e0;
-            color: #666;
-        }
-        
-        /* Edit Button for Line Items */
-        .edit-line-btn {
-            background: none;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 4px 8px;
-            font-size: 12px;
-            cursor: pointer;
-            color: #666;
-            margin-left: 10px;
-            transition: all 0.2s;
-        }
-        
-        .edit-line-btn:hover {
-            background-color: #f0f0f0;
-            color: #333;
-        }
-        
-        /* Credit/Discount Modal Form */
-        .credit-form {
-            padding: 20px;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #2c3e50;
-            font-size: 14px;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
-            font-family: inherit;
-        }
-        
-        .form-control:focus {
-            outline: none;
-            border-color: #51b5e0;
-            box-shadow: 0 0 0 3px rgba(81, 181, 224, 0.2);
-        }
-        
-        .checkbox-group {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-top: 10px;
-        }
-        
-        .checkbox-item {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            border: 1px solid #e0e6ed;
-            border-radius: 6px;
-            transition: all 0.2s;
-        }
-        
-        .checkbox-item:hover {
-            background-color: #f8fafc;
-            border-color: #51b5e0;
-        }
-        
-        .checkbox-item input[type="checkbox"] {
-            margin-right: 10px;
-            width: 18px;
-            height: 18px;
-        }
-        
-        .checkbox-label {
-            font-size: 14px;
-            color: #2c3e50;
-        }
-        
-        .amount-type-toggle {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        
-        .type-btn {
-            flex: 1;
-            padding: 12px;
-            border: 2px solid #e0e6ed;
-            background-color: #f8fafc;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            text-align: center;
-            transition: all 0.2s;
-        }
-        
-        .type-btn.active {
-            background-color: #51b5e0;
-            color: white;
-            border-color: #51b5e0;
-        }
-        
-        .amount-input-group {
-            display: flex;
-            align-items: center;
-            margin-top: 10px;
-        }
-        
-        .dollar-sign {
-            padding: 10px 0 10px 12px;
-            background-color: #f8fafc;
-            border: 1px solid #ddd;
-            border-right: none;
-            border-radius: 6px 0 0 6px;
-            font-weight: 600;
-        }
-        
-        .percent-sign {
-            padding: 10px 12px 10px 0;
-            background-color: #f8fafc;
-            border: 1px solid #ddd;
-            border-left: none;
-            border-radius: 0 6px 6px 0;
-            font-weight: 600;
-        }
-        
-        .amount-input-group input {
-            flex: 1;
-            padding: 10px 12px;
-            border: 1px solid #ddd;
-            border-radius: 0;
-            text-align: right;
-        }
-        
-        .notes-box {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
-            font-family: inherit;
-            resize: vertical;
-            min-height: 80px;
-        }
-        
-        .notes-box:focus {
-            outline: none;
-            border-color: #51b5e0;
-            box-shadow: 0 0 0 3px rgba(81, 181, 224, 0.2);
-        }
-        
-        .char-counter {
-            text-align: right;
-            font-size: 12px;
-            color: #7f8c8d;
-            margin-top: 5px;
-        }
-        
-        /* Team Notes Section */
-        .team-notes-section {
-            margin: 30px 0;
-            padding: 20px;
-            background-color: #f8fafc;
-            border: 1px solid #e0e6ed;
-            border-radius: 8px;
-        }
-        
-        .team-notes-header {
-            font-size: 16px;
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .team-notes-header i {
-            margin-right: 10px;
-            color: #51b5e0;
-        }
-        
-        /* Buttons Section */
-        .buttons-section {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #e0e6ed;
-        }
-        
-        .action-buttons-left {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .action-buttons-right {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .primary-btn {
-            background-color: #51b5e0;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .secondary-btn {
-            background-color: #f0f0f0;
-            color: #333;
-            border: 1px solid #ddd;
-            padding: 12px 24px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        
-        .add-credit-btn {
-            background-color: #ff6308;
-            color: white;
-        }
-        
-        .add-fee-btn {
-            background-color: midnightblue;
-            color: white;
-        }
-        
-        /* Totals Section */
-        .totals-container {
-            display: flex;
-            justify-content: flex-end;
-            margin: 25px 0 30px 0;
-        }
-        
-        .totals-card {
-            width: 300px;
-            background-color: white;
-            border: 1px solid #e0e6ed;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
-        }
-        
-        .total-line {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            font-size: 14px;
-            border-bottom: 1px solid #ecf0f1;
-        }
-        
-        .total-line:last-child {
-            border-bottom: none;
-            font-weight: 700;
-            font-size: 16px;
-            color: #2c3e50;
-            padding-top: 12px;
-            margin-top: 8px;
-            background-color: #f8fafc;
-            padding: 12px;
-            border-radius: 6px;
-            margin-left: -12px;
-            margin-right: -12px;
-            margin-bottom: -12px;
-        }
-        
-        .total-label {
-            color: #5d6d7e;
-        }
-        
-        /* Credits/Discounts Applied Section */
-        .applied-credits {
-            margin: 20px 0;
-        }
-        
-        .applied-credit-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px;
-            background-color: #f8fafc;
-            border: 1px solid #e0e6ed;
-            border-radius: 6px;
-            margin-bottom: 10px;
-        }
-        
-        .credit-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .credit-type-badge {
-            padding: 4px 8px;
-            background-color: #ff6308;
-            color: white;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        
-        .credit-amount {
-            font-weight: 600;
-            font-size: 16px;
-            color: #2c3e50;
-        }
-        
-        .remove-credit-btn {
-            background: none;
-            border: none;
-            color: #e74c3c;
-            cursor: pointer;
-            font-size: 18px;
-            padding: 5px;
-        }
-        
-        /* Footer */
-        .footer {
-            margin-top: 30px;
-            padding-top: 15px;
-            border-top: 2px solid #ecf0f1;
-            text-align: center;
-            font-size: 12px;
-            color: #7f8c8d;
-        }
-        
-        /* Amount styling */
-        .amount {
-            font-family: 'Courier New', monospace;
-            font-weight: 600;
-        }
-        
-        /* Promotional Section */
-        .promotional-section {
-            background-color: #fef7f7;
-            border: 1px solid #ffeaea;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 20px 0;
-        }
-        
-        .promo-title {
-            color: #8c2633;
-            font-size: 16px;
-            margin: 0 0 10px 0;
-        }
-        
-        .promo-content {
-            font-size: 14px;
-            color: #666;
-        }
-        
-        .promo-tagline {
-            font-style: italic;
-            margin-top: 5px;
-        }
-    </style>
-</head>
-<body>
-    <!-- Demo Button to Open Modal -->
-    <div style="padding: 50px; text-align: center;">
-        <button id="openInvoiceModal" style="padding: 15px 30px; font-size: 16px; background-color: #51b5e0; color: white; border: none; border-radius: 8px; cursor: pointer;">
-            <i class="fas fa-file-invoice"></i> Open Editable Invoice
-        </button>
-    </div>
+import React from "react";
+import { AlertTriangle, ClipboardCheck, FileText, Stethoscope, ArrowDown, ShieldCheck, CheckCircle2, FlaskConical, Search, Activity } from "lucide-react";
 
-    <!-- Invoice Modal -->
-    <div class="invoice-modal-overlay" id="invoiceModal">
-        <div class="invoice-modal">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h2 class="modal-title">Edit Invoice: INV-2026-0042</h2>
-                <button class="close-modal" id="closeModal">&times;</button>
-            </div>
-            
-            <!-- Modal Body -->
-            <div class="modal-body">
-                <div class="container">
-                    <!-- Header -->
-                    <div class="header-section">
-                        <div class="logo-area">
-                            Hannah Pet Hospital
-                        </div>
-                        <div class="clinic-info">
-                            10526 SE Washington Street, Suite A-103<br>
-                            Portland, OR 97216<br>
-                            Phone: (503) 905-5200
-                        </div>
-                    </div>
-                    
-                    <!-- Main Title -->
-                    <div class="main-title">Invoice</div>
-                    
-                    <!-- Content Columns -->
-                    <div class="content-columns">
-                        <!-- Member Information -->
-                        <div class="member-column">
-                            <div class="section-header">Member Information</div>
-                            <div class="member-details">
-                                <div class="info-line">
-                                    <div class="info-label">Member Name</div>
-                                    <div class="editable-field" data-field="memberName">
-                                        <div class="static-text">Francesca Ferrucci</div>
-                                        <input type="text" class="edit-input" value="Francesca Ferrucci">
-                                    </div>
-                                </div>
-                                <div class="info-line">
-                                    <div class="info-label">Billing Address</div>
-                                    <div class="editable-field" data-field="billingAddress">
-                                        <div class="static-text">123 Main St, Apt 4B</div>
-                                        <input type="text" class="edit-input" value="123 Main St, Apt 4B">
-                                    </div>
-                                </div>
-                                <div class="info-line">
-                                    <div class="editable-field" data-field="cityStateZip">
-                                        <div class="static-text">Portland, OR, 97216</div>
-                                        <input type="text" class="edit-input" value="Portland, OR, 97216">
-                                    </div>
-                                </div>
-                                <div class="info-line">
-                                    <div class="info-label">Phone Number</div>
-                                    <div class="editable-field" data-field="phone">
-                                        <div class="static-text">(503) 555-1234</div>
-                                        <input type="text" class="edit-input" value="(503) 555-1234">
-                                    </div>
-                                </div>
-                                <div class="info-line">
-                                    <div class="info-label">Email Address</div>
-                                    <div class="editable-field" data-field="email">
-                                        <div class="static-text">f.ferrucci@email.com</div>
-                                        <input type="email" class="edit-input" value="f.ferrucci@email.com">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Invoice Details -->
-                        <div class="invoice-column">
-                            <div class="section-header">Invoice Details</div>
-                            <div class="invoice-details-card">
-                                <div class="detail-item">
-                                    <div class="detail-label">Invoice Number</div>
-                                    <div class="detail-value">INV-2026-0042</div>
-                                </div>
-                                <div class="detail-item">
-                                    <div class="detail-label">Issue Date</div>
-                                    <div class="editable-field" data-field="issueDate">
-                                        <div class="static-text">Jan 01, 2026</div>
-                                        <input type="date" class="edit-input" value="2026-01-01">
-                                    </div>
-                                </div>
-                                <div class="detail-item">
-                                    <div class="detail-label">Due Date</div>
-                                    <div class="editable-field" data-field="dueDate">
-                                        <div class="static-text">Jan 31, 2026</div>
-                                        <input type="date" class="edit-input" value="2026-01-31">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Balance Section -->
-                    <div class="balance-section">
-                        <div class="balance-header">Balance Summary</div>
-                        <div class="balance-row">
-                            <span>Previous Balance</span>
-                            <span class="amount">$0.00</span>
-                        </div>
-                        <div class="balance-row">
-                            <span>Amount Paid</span>
-                            <span class="amount">$0.00</span>
-                        </div>
-                        <div class="balance-row">
-                            <span>Amount Outstanding</span>
-                            <span class="amount">$0.00</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Table Section -->
-                    <div class="table-container">
-                        <div class="table-title">
-                            Monthly Recurring Fees
-                            <button class="edit-line-btn" style="float: right; margin-top: -5px;" id="addNewLineItem">
-                                <i class="fas fa-plus"></i> Add Line Item
-                            </button>
-                        </div>
-                        <table id="lineItemsTable">
-                            <thead>
-                                <tr>
-                                    <th>Service</th>
-                                    <th>Pet Name / Pet ID</th>
-                                    <th>Monthly Fee</th>
-                                    <th>Subtotal</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Line Item 1 -->
-                                <tr data-line-id="1">
-                                    <td>
-                                        <div class="editable-field" data-field="service1">
-                                            <div class="static-text">Total Lifetime Care™ Plan</div>
-                                            <input type="text" class="edit-input" value="Total Lifetime Care™ Plan">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="editable-field" data-field="pet1">
-                                            <div class="static-text">Carlotta / 143445</div>
-                                            <input type="text" class="edit-input" value="Carlotta / 143445">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="editable-field" data-field="fee1">
-                                            <div class="static-text">$20.00</div>
-                                            <input type="text" class="edit-input" value="20.00">
-                                        </div>
-                                        <button class="edit-line-btn adjust-line-btn" data-line-id="1">
-                                            <i class="fas fa-edit"></i> Adjust
-                                        </button>
-                                        <!-- Adjustment Controls (Initially Hidden) -->
-                                        <div class="line-item-adjustment" id="adjustment-1">
-                                            <div class="adjustment-controls">
-                                                <div class="adjust-type-toggle">
-                                                    <button class="adjust-btn plus active" data-type="add">+</button>
-                                                    <button class="adjust-btn minus" data-type="subtract">-</button>
-                                                </div>
-                                                <span>$</span>
-                                                <input type="number" class="amount-input" value="5.00" step="0.01" min="0.01">
-                                                <select class="reason-select">
-                                                    <option value="late_fee">Late Fee</option>
-                                                    <option value="service_fee">Service Fee</option>
-                                                    <option value="discount">Discount</option>
-                                                    <option value="promo">Promotion</option>
-                                                    <option value="other">Other</option>
-                                                </select>
-                                                <input type="text" class="edit-input" placeholder="Notes (optional)" style="flex-grow: 1;">
-                                                <div class="adjust-actions">
-                                                    <button class="action-btn apply-btn apply-adjustment" data-line-id="1">Apply</button>
-                                                    <button class="action-btn cancel-btn cancel-adjustment" data-line-id="1">Cancel</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="amount line-subtotal" data-line-id="1">$20.00</td>
-                                    <td>
-                                        <button class="edit-line-btn delete-line-btn" data-line-id="1">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <!-- Line Item 2 -->
-                                <tr data-line-id="2">
-                                    <td>
-                                        <div class="editable-field" data-field="service2">
-                                            <div class="static-text">Total Lifetime Care™ Plan</div>
-                                            <input type="text" class="edit-input" value="Total Lifetime Care™ Plan">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="editable-field" data-field="pet2">
-                                            <div class="static-text">Teddy / 104756</div>
-                                            <input type="text" class="edit-input" value="Teddy / 104756">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="editable-field" data-field="fee2">
-                                            <div class="static-text">$97.39</div>
-                                            <input type="text" class="edit-input" value="97.39">
-                                        </div>
-                                        <button class="edit-line-btn adjust-line-btn" data-line-id="2">
-                                            <i class="fas fa-edit"></i> Adjust
-                                        </button>
-                                        <!-- Adjustment Controls (Initially Hidden) -->
-                                        <div class="line-item-adjustment" id="adjustment-2"></div>
-                                    </td>
-                                    <td class="amount line-subtotal" data-line-id="2">$97.39</td>
-                                    <td>
-                                        <button class="edit-line-btn delete-line-btn" data-line-id="2">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <!-- Action Buttons under Table -->
-                    <div class="action-buttons-left">
-                        <button class="primary-btn add-credit-btn" id="addCreditBtn">
-                            <i class="fas fa-tag"></i> Add Credit/Discount
-                        </button>
-                        <button class="primary-btn add-fee-btn" id="addFeeBtn">
-                            <i class="fas fa-plus-circle"></i> Add Additional Fee
-                        </button>
-                    </div>
-                    
-                    <!-- Applied Credits/Discounts Section -->
-                    <div class="applied-credits" id="appliedCreditsSection">
-                        <div class="section-header">Applied Credits/Discounts</div>
-                        <div id="appliedCreditsList">
-                            <!-- Applied credits will appear here -->
-                        </div>
-                    </div>
-                    
-                    <!-- Team Notes Section -->
-                    <div class="team-notes-section">
-                        <div class="team-notes-header">
-                            <i class="fas fa-sticky-note"></i> Notes (Internal Use Only)
-                        </div>
-                        <textarea class="notes-box" id="teamNotes" placeholder="Enter notes for team members (max 250 characters)..." maxlength="250"></textarea>
-                        <div class="char-counter">
-                            <span id="charCount">0</span>/250 characters
-                        </div>
-                    </div>
-                    
-                    <!-- Totals Section -->
-                    <div class="totals-container">
-                        <div class="totals-card">
-                            <div class="total-line">
-                                <span class="total-label">Subtotal</span>
-                                <span class="amount" id="subtotal">$117.39</span>
-                            </div>
-                            <div class="total-line">
-                                <span class="total-label">Discounts</span>
-                                <span class="amount" id="discounts">-$0.00</span>
-                            </div>
-                            <div class="total-line">
-                                <span class="total-label">Additional Fees</span>
-                                <span class="amount" id="additionalFees">$0.00</span>
-                            </div>
-                            <div class="total-line">
-                                <span class="total-label">Tax</span>
-                                <span class="amount" id="tax">$0.00</span>
-                            </div>
-                            <div class="total-line">
-                                <span>Total Amount Due</span>
-                                <span class="amount" id="totalDue">$117.39</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Promotional Message -->
-                    <div class="promotional-section">
-                        <h3 class="promo-title">❤️ Love Hannah? Share Hannah.</h3>
-                        <div class="promo-content">
-                            <p>Refer a friend who enrolls, and you'll receive <strong>one FREE month</strong> of Total Lifetime Care™ for one of your Pets.</p>
-                            <p class="promo-tagline">Because great care is better together.</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Footer -->
-                    <div class="footer">
-                        <p>Thank you for being a valued Hannah Member!</p>
-                    </div>
-                    
-                    <!-- Modal Action Buttons -->
-                    <div class="buttons-section">
-                        <div class="action-buttons-left">
-                            <button class="secondary-btn" id="saveDraftBtn">
-                                <i class="fas fa-save"></i> Save as Draft
-                            </button>
-                            <button class="secondary-btn" id="previewBtn">
-                                <i class="fas fa-eye"></i> Preview
-                            </button>
-                        </div>
-                        <div class="action-buttons-right">
-                            <button class="secondary-btn" id="cancelBtn">
-                                Cancel
-                            </button>
-                            <button class="primary-btn" id="saveSendBtn">
-                                <i class="fas fa-paper-plane"></i> Save & Send
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Credit/Discount Modal -->
-    <div class="credit-modal-overlay" id="creditModal">
-        <div class="credit-modal">
-            <div class="modal-header">
-                <h2 class="modal-title">Add Credit/Discount</h2>
-                <button class="close-modal" id="closeCreditModal">&times;</button>
-            </div>
-            <div class="credit-form">
-                <div class="form-group">
-                    <label class="form-label">Type</label>
-                    <div class="amount-type-toggle">
-                        <button class="type-btn active" id="fixedAmountBtn">Fixed Amount ($)</button>
-                        <button class="type-btn" id="percentageBtn">Percentage (%)</button>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Amount</label>
-                    <div class="amount-input-group">
-                        <span class="dollar-sign" id="amountSymbol">$</span>
-                        <input type="number" id="creditAmount" class="form-control" step="0.01" min="0.01" placeholder="0.00">
-                        <span class="percent-sign" id="percentSymbol" style="display: none;">%</span>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Credit/Discount Type</label>
-                    <div class="checkbox-group">
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="creditType" value="Sales Promotion">
-                            <span class="checkbox-label">Sales Promotion</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="creditType" value="Previous Coverage Buyout">
-                            <span class="checkbox-label">Previous Coverage Buyout</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="creditType" value="Member Referral">
-                            <span class="checkbox-label">Member Referral</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="creditType" value="Hardship Grant">
-                            <span class="checkbox-label">Hardship Grant</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="creditType" value="First Month Free">
-                            <span class="checkbox-label">First Month Free</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="creditType" value="Licensing Fee">
-                            <span class="checkbox-label">Licensing Fee</span>
-                        </label>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Description (Optional)</label>
-                    <input type="text" id="creditDescription" class="form-control" placeholder="Brief description of credit/discount">
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Internal Notes (Optional)</label>
-                    <textarea class="notes-box" id="creditNotes" placeholder="Internal notes about this credit/discount..." maxlength="250"></textarea>
-                    <div class="char-counter">
-                        <span id="creditCharCount">0</span>/250 characters
-                    </div>
-                </div>
-                
-                <div class="buttons-section" style="margin-top: 30px; border-top: none;">
-                    <button class="secondary-btn" id="cancelCreditBtn">Cancel</button>
-                    <button class="primary-btn" id="applyCreditBtn">Apply Credit/Discount</button>
-                </div>
-            </div>
-        </div>
-    </div>
+const HANNAH_BLUE = "#51b5e0";
+const NAVY = "#08245c";
+const BURGUNDY = "#a30b2b";
+const GREEN = "#0b6b2b";
+const PURPLE = "#4d2c91";
 
-    <script>
-        // DOM Elements
-        const modal = document.getElementById('invoiceModal');
-        const openBtn = document.getElementById('openInvoiceModal');
-        const closeBtn = document.getElementById('closeModal');
-        const cancelBtn = document.getElementById('cancelBtn');
-        const creditModal = document.getElementById('creditModal');
-        const closeCreditBtn = document.getElementById('closeCreditModal');
-        const cancelCreditBtn = document.getElementById('cancelCreditBtn');
-        const applyCreditBtn = document.getElementById('applyCreditBtn');
-        const addCreditBtn = document.getElementById('addCreditBtn');
-        
-        // Credit Modal Elements
-        const fixedAmountBtn = document.getElementById('fixedAmountBtn');
-        const percentageBtn = document.getElementById('percentageBtn');
-        const creditAmount = document.getElementById('creditAmount');
-        const amountSymbol = document.getElementById('amountSymbol');
-        const percentSymbol = document.getElementById('percentSymbol');
-        const creditNotes = document.getElementById('creditNotes');
-        const creditCharCount = document.getElementById('creditCharCount');
-        const teamNotes = document.getElementById('teamNotes');
-        const charCount = document.getElementById('charCount');
-        
-        // Open Main Invoice Modal
-        openBtn.addEventListener('click', () => {
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        });
-        
-        // Close Main Modal
-        function closeMainModal() {
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-        
-        closeBtn.addEventListener('click', closeMainModal);
-        cancelBtn.addEventListener('click', closeMainModal);
-        
-        // Open Credit Modal
-        addCreditBtn.addEventListener('click', () => {
-            creditModal.style.display = 'flex';
-        });
-        
-        // Close Credit Modal
-        function closeCreditModal() {
-            creditModal.style.display = 'none';
-            // Reset form
-            creditAmount.value = '';
-            document.querySelectorAll('input[name="creditType"]').forEach(cb => cb.checked = false);
-            document.getElementById('creditDescription').value = '';
-            creditNotes.value = '';
-            creditCharCount.textContent = '0';
-            fixedAmountBtn.click(); // Reset to fixed amount
-        }
-        
-        closeCreditBtn.addEventListener('click', closeCreditModal);
-        cancelCreditBtn.addEventListener('click', closeCreditModal);
-        
-        // Close modals when clicking outside
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeMainModal();
-            }
-        });
-        
-        creditModal.addEventListener('click', (e) => {
-            if (e.target === creditModal) {
-                closeCreditModal();
-            }
-        });
-        
-        // Amount Type Toggle
-        fixedAmountBtn.addEventListener('click', () => {
-            fixedAmountBtn.classList.add('active');
-            percentageBtn.classList.remove('active');
-            amountSymbol.style.display = 'block';
-            percentSymbol.style.display = 'none';
-            creditAmount.placeholder = '0.00';
-        });
-        
-        percentageBtn.addEventListener('click', () => {
-            percentageBtn.classList.add('active');
-            fixedAmountBtn.classList.remove('active');
-            amountSymbol.style.display = 'none';
-            percentSymbol.style.display = 'block';
-            creditAmount.placeholder = '0';
-            creditAmount.max = '100';
-        });
-        
-        // Character Counter for Credit Notes
-        creditNotes.addEventListener('input', () => {
-            const length = creditNotes.value.length;
-            creditCharCount.textContent = length;
-            if (length > 250) {
-                creditNotes.value = creditNotes.value.substring(0, 250);
-                creditCharCount.textContent = 250;
-            }
-        });
-        
-        // Character Counter for Team Notes
-        teamNotes.addEventListener('input', () => {
-            const length = teamNotes.value.length;
-            charCount.textContent = length;
-            if (length > 250) {
-                teamNotes.value = teamNotes.value.substring(0, 250);
-                charCount.textContent = 250;
-            }
-        });
-        
-        // Apply Credit/Discount
-        applyCreditBtn.addEventListener('click', () => {
-            const amount = parseFloat(creditAmount.value);
-            const isPercentage = percentageBtn.classList.contains('active');
-            const selectedTypes = Array.from(document.querySelectorAll('input[name="creditType"]:checked'))
-                .map(cb => cb.value);
-            const description = document.getElementById('creditDescription').value;
-            const notes = creditNotes.value;
-            
-            if (!amount || amount <= 0) {
-                alert('Please enter a valid amount.');
-                return;
-            }
-            
-            if (selectedTypes.length === 0) {
-                alert('Please select at least one credit/discount type.');
-                return;
-            }
-            
-            if (isPercentage && amount > 100) {
-                alert('Percentage cannot exceed 100%.');
-                return;
-            }
-            
-            // Calculate discount amount
-            let discountAmount;
-            let displayText;
-            
-            if (isPercentage) {
-                const subtotal = parseFloat(document.getElementById('subtotal').textContent.replace('$', ''));
-                discountAmount = subtotal * (amount / 100);
-                displayText = `${amount}% (${selectedTypes.join(', ')})`;
-            } else {
-                discountAmount = amount;
-                displayText = `$${amount.toFixed(2)} (${selectedTypes.join(', ')})`;
-            }
-            
-            // Add to applied credits list
-            addAppliedCredit(selectedTypes, discountAmount, description, notes, isPercentage ? `${amount}%` : `$${amount.toFixed(2)}`);
-            
-            // Update totals
-            updateDiscounts();
-            
-            // Close modal
-            closeCreditModal();
-            
-            // Show confirmation
-            alert(`Applied credit/discount of ${isPercentage ? amount + '%' : '$' + amount.toFixed(2)} for ${selectedTypes.join(', ')}`);
-        });
-        
-        // Add Applied Credit to List
-        function addAppliedCredit(types, amount, description, notes, displayAmount) {
-            const appliedCreditsList = document.getElementById('appliedCreditsList');
-            const creditId = 'credit_' + Date.now();
-            
-            const creditItem = document.createElement('div');
-            creditItem.className = 'applied-credit-item';
-            creditItem.dataset.creditId = creditId;
-            creditItem.dataset.amount = amount;
-            
-            creditItem.innerHTML = `
-                <div class="credit-info">
-                    <span class="credit-type-badge">${types[0]}</span>
-                    <div>
-                        <div><strong>${description || types.join(', ')}</strong></div>
-                        <div style="font-size: 12px; color: #666;">Amount: ${displayAmount}</div>
-                        ${notes ? `<div style="font-size: 11px; color: #888; margin-top: 4px;">${notes.substring(0, 50)}${notes.length > 50 ? '...' : ''}</div>` : ''}
-                    </div>
+function Pill({ children, color = NAVY }) {
+  return (
+    <div className="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-bold text-white shadow-sm" style={{ backgroundColor: color }}>
+      {children}
+    </div>
+  );
+}
+
+function Box({ title, children, color = NAVY, tint = "#ffffff", icon: Icon }) {
+  return (
+    <div className="rounded-xl border-2 bg-white p-4 shadow-sm" style={{ borderColor: color, background: tint }}>
+      <div className="mb-2 flex items-center gap-2 text-base font-extrabold uppercase tracking-wide" style={{ color }}>
+        {Icon ? <Icon className="h-5 w-5" /> : null}
+        {title}
+      </div>
+      <div className="text-sm leading-relaxed text-slate-800">{children}</div>
+    </div>
+  );
+}
+
+function LevelBadge({ level, color }) {
+  return (
+    <div className="flex h-full min-h-28 w-12 items-center justify-center rounded-lg text-white shadow-sm" style={{ backgroundColor: color }}>
+      <div className="-rotate-90 whitespace-nowrap text-sm font-extrabold tracking-widest">LEVEL {level}</div>
+    </div>
+  );
+}
+
+function Arrow() {
+  return <ArrowDown className="mx-auto my-2 h-6 w-6 text-slate-500" />;
+}
+
+function BulletList({ items }) {
+  return (
+    <ul className="space-y-2">
+      {items.map((item, idx) => (
+        <li key={idx} className="flex gap-2">
+          <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full" style={{ backgroundColor: NAVY }} />
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+export default function ElevatedALPProtocolAligned() {
+  return (
+    <main className="min-h-screen bg-slate-50 p-6 text-slate-900">
+      <div className="mx-auto max-w-7xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl">
+        <header className="relative border-b-8 px-8 py-7" style={{ borderColor: NAVY }}>
+          <div className="absolute right-8 top-7 rounded-xl px-4 py-2 text-sm font-bold text-white" style={{ backgroundColor: HANNAH_BLUE }}>
+            Protocol-aligned • May 2026
+          </div>
+          <p className="text-sm font-bold uppercase tracking-[0.25em]" style={{ color: HANNAH_BLUE }}>Diagnostic Algorithm</p>
+          <h1 className="mt-2 max-w-4xl text-4xl font-black uppercase leading-tight" style={{ color: NAVY }}>
+            Elevated Alkaline Phosphatase <span style={{ color: BURGUNDY }}>(ALP)</span>
+          </h1>
+          <p className="mt-3 max-w-3xl text-base font-semibold text-slate-600">
+            A stepwise workflow that preserves the clinical logic of the ALP algorithm while matching Hannah's current diagnostic testing permissions.
+          </p>
+        </header>
+
+        <section className="grid gap-6 p-8 lg:grid-cols-[1fr_360px]">
+          <div className="space-y-8">
+            <div className="rounded-2xl border-2 p-5" style={{ borderColor: HANNAH_BLUE }}>
+              <div className="mb-4 flex items-center gap-3">
+                <ShieldCheck className="h-7 w-7" style={{ color: HANNAH_BLUE }} />
+                <h2 className="text-xl font-black uppercase" style={{ color: NAVY }}>Testing Guardrail</h2>
+              </div>
+              <p className="text-sm leading-relaxed text-slate-800">
+                Elevated ALP is a laboratory finding, not a stand-alone presenting complaint. Pet Nurse testing should begin with history, physical exam, and review/confirmation of the existing lab result. Additional bloodwork, bile acids, urinalysis, ultrasound, CT/MRI, culture, cytology/FNA, biopsy, infectious disease testing, or referral diagnostics require a Diagnostic & Requisition form and doctor approval unless the patient also meets a listed Hannah presenting-complaint testing trigger.
+              </p>
+            </div>
+
+            <div className="grid gap-4 lg:grid-cols-[56px_1fr]">
+              <LevelBadge level="1" color={NAVY} />
+              <div className="space-y-4">
+                <Pill color={BURGUNDY}>ELEVATED ALKALINE PHOSPHATASE (ALP)</Pill>
+                <div className="grid gap-4 md:grid-cols-3">
+                  <Box title="History" icon={FileText} color={NAVY}>
+                    Medication history, age, pregnancy/lactation status, recent trauma/orthopedic surgery, appetite, PU/PD, vomiting, diarrhea, lethargy, weight loss, and prior liver/endocrine disease.
+                  </Box>
+                  <Box title="Physical Exam" icon={Stethoscope} color={NAVY}>
+                    Assess hydration, body condition, abdominal pain or distension, hepatomegaly, jaundice, fever, endocrine signs, and evidence of bone or systemic disease.
+                  </Box>
+                  <Box title="Review Labs" icon={ClipboardCheck} color={NAVY}>
+                    Confirm ALP value, trend, concurrent ALT/AST/GGT/bilirubin changes, sample quality, hemolysis/lipemia, and whether chemistry was already authorized under protocol.
+                  </Box>
                 </div>
-                <div>
-                    <span class="credit-amount">-$${amount.toFixed(2)}</span>
-                    <button class="remove-credit-btn" data-credit-id="${creditId}">
-                        <i class="fas fa-times"></i>
-                    </button>
+                <Arrow />
+                <Box title="Confirm Elevation Before Escalating" color={HANNAH_BLUE} tint="#f3fbfe" icon={Search}>
+                  Rule out pre-analytical error, sample quality issues, lipemia/hemolysis, transcription error, and isolated mild elevations. If the patient is stable and no protocol trigger applies, document findings and route the next-step request for doctor approval.
+                </Box>
+
+                <div className="grid gap-4 md:grid-cols-2">
+                  <Box title="Protocol-Approved Automatic Testing" color={GREEN} tint="#f3fbf5" icon={CheckCircle2}>
+                    <BulletList items={[
+                      "Use only if the patient meets a current presenting-complaint trigger, such as age/appetite criteria, productive vomiting >48 hr, diarrhea criteria, PU/PD, pale mucous membranes, respiratory distress, bleeding/toxin/pyometra, or blocked-cat protocol.",
+                      "If no trigger applies, do not add CBC, chemistry, urinalysis, bile acids, T4, imaging, or infectious testing without approval."
+                    ]} />
+                  </Box>
+                  <Box title="Physiologic / Non-Hepatic Possibilities" color={NAVY} tint="#f8fafc" icon={Activity}>
+                    <BulletList items={[
+                      "Young/growing patient",
+                      "Late pregnancy or lactation",
+                      "Recent bone fracture or orthopedic surgery",
+                      "Certain glucocorticoid or anticonvulsant medications",
+                      "Hyperthyroidism in cats"
+                    ]} />
+                  </Box>
                 </div>
-            `;
-            
-            appliedCreditsList.appendChild(creditItem);
-            
-            // Show applied credits section if hidden
-            document.getElementById('appliedCreditsSection').style.display = 'block';
-            
-            // Attach remove event
-            creditItem.querySelector('.remove-credit-btn').addEventListener('click', function() {
-                if (confirm('Remove this credit/discount?')) {
-                    creditItem.remove();
-                    updateDiscounts();
-                    
-                    // Hide section if no credits left
-                    if (appliedCreditsList.children.length === 0) {
-                        document.getElementById('appliedCreditsSection').style.display = 'none';
-                    }
-                }
-            });
-        }
-        
-        // Update Discounts Total
-        function updateDiscounts() {
-            const appliedCreditsList = document.getElementById('appliedCreditsList');
-            let totalDiscount = 0;
-            
-            Array.from(appliedCreditsList.children).forEach(item => {
-                totalDiscount += parseFloat(item.dataset.amount);
-            });
-            
-            document.getElementById('discounts').textContent = `-$${totalDiscount.toFixed(2)}`;
-            updateTotals();
-        }
-        
-        // Original functionality from previous code (shortened for brevity)
-        document.querySelectorAll('.editable-field').forEach(field => {
-            const staticText = field.querySelector('.static-text');
-            const editInput = field.querySelector('.edit-input');
-            
-            staticText.addEventListener('click', () => {
-                field.classList.add('editing');
-                editInput.focus();
-                if (editInput.type !== 'date') {
-                    editInput.select();
-                }
-            });
-            
-            editInput.addEventListener('blur', () => {
-                if (editInput.value.trim() !== '') {
-                    staticText.textContent = editInput.value;
-                }
-                field.classList.remove('editing');
-                
-                if (editInput.closest('td').querySelector('.amount-input')) {
-                    updateLineItemTotal(field.closest('tr').dataset.lineId);
-                }
-            });
-            
-            editInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    editInput.blur();
-                }
-            });
-        });
-        
-        // Line Item Adjustment Toggle
-        document.querySelectorAll('.adjust-line-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const lineId = btn.dataset.lineId;
-                const adjustmentDiv = document.getElementById(`adjustment-${lineId}`);
-                
-                if (adjustmentDiv.style.display === 'block') {
-                    adjustmentDiv.style.display = 'none';
-                } else {
-                    document.querySelectorAll('.line-item-adjustment').forEach(adj => {
-                        adj.style.display = 'none';
-                    });
-                    adjustmentDiv.style.display = 'block';
-                }
-            });
-        });
-        
-        // Adjustment Type Toggle
-        document.querySelectorAll('.adjust-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const toggleGroup = btn.closest('.adjust-type-toggle');
-                toggleGroup.querySelectorAll('.adjust-btn').forEach(b => {
-                    b.classList.remove('active');
-                });
-                btn.classList.add('active');
-            });
-        });
-        
-        // Apply Adjustment
-        document.querySelectorAll('.apply-adjustment').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const lineId = btn.dataset.lineId;
-                const adjustmentDiv = document.getElementById(`adjustment-${lineId}`);
-                const amountInput = adjustmentDiv.querySelector('.amount-input');
-                const typeToggle = adjustmentDiv.querySelector('.adjust-btn.active');
-                const reasonSelect = adjustmentDiv.querySelector('.reason-select');
-                
-                const feeField = document.querySelector(`tr[data-line-id="${lineId}"] .editable-field[data-field^="fee"] .static-text`);
-                const currentFee = parseFloat(feeField.textContent.replace('$', '')) || 0;
-                const adjustment = parseFloat(amountInput.value) || 0;
-                
-                let newFee;
-                if (typeToggle.dataset.type === 'add') {
-                    newFee = currentFee + adjustment;
-                } else {
-                    newFee = currentFee - adjustment;
-                    if (newFee < 0) newFee = 0;
-                }
-                
-                feeField.textContent = `$${newFee.toFixed(2)}`;
-                const feeInput = feeField.parentElement.querySelector('.edit-input');
-                feeInput.value = newFee.toFixed(2);
-                
-                adjustmentDiv.style.display = 'none';
-                updateLineItemTotal(lineId);
-                
-                alert(`Applied ${typeToggle.dataset.type === 'add' ? 'addition' : 'reduction'} of $${adjustment.toFixed(2)} for ${reasonSelect.value.replace('_', ' ')}`);
-            });
-        });
-        
-        // Cancel Adjustment
-        document.querySelectorAll('.cancel-adjustment').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const lineId = btn.dataset.lineId;
-                const adjustmentDiv = document.getElementById(`adjustment-${lineId}`);
-                adjustmentDiv.style.display = 'none';
-            });
-        });
-        
-        // Delete Line Item
-        document.querySelectorAll('.delete-line-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const lineId = btn.dataset.lineId;
-                const row = document.querySelector(`tr[data-line-id="${lineId}"]`);
-                if (confirm('Are you sure you want to delete this line item?')) {
-                    row.remove();
-                    updateTotals();
-                }
-            });
-        });
-        
-        // Add New Line Item
-        document.getElementById('addNewLineItem').addEventListener('click', () => {
-            const tableBody = document.querySelector('#lineItemsTable tbody');
-            const newLineId = Date.now();
-            
-            const newRow = document.createElement('tr');
-            newRow.dataset.lineId = newLineId;
-            newRow.innerHTML = `
-                <td>
-                    <div class="editable-field" data-field="service${newLineId}">
-                        <div class="static-text">New Service</div>
-                        <input type="text" class="edit-input" value="New Service">
-                    </div>
-                </td>
-                <td>
-                    <div class="editable-field" data-field="pet${newLineId}">
-                        <div class="static-text">New Pet / ID</div>
-                        <input type="text" class="edit-input" value="New Pet / ID">
-                    </div>
-                </td>
-                <td>
-                    <div class="editable-field" data-field="fee${newLineId}">
-                        <div class="static-text">$0.00</div>
-                        <input type="text" class="edit-input" value="0.00">
-                    </div>
-                    <button class="edit-line-btn adjust-line-btn" data-line-id="${newLineId}">
-                        <i class="fas fa-edit"></i> Adjust
-                    </button>
-                    <div class="line-item-adjustment" id="adjustment-${newLineId}">
-                        <div class="adjustment-controls">
-                            <div class="adjust-type-toggle">
-                                <button class="adjust-btn plus active" data-type="add">+</button>
-                                <button class="adjust-btn minus" data-type="subtract">-</button>
-                            </div>
-                            <span>$</span>
-                            <input type="number" class="amount-input" value="0.00" step="0.01" min="0.01">
-                            <select class="reason-select">
-                                <option value="late_fee">Late Fee</option>
-                                <option value="service_fee">Service Fee</option>
-                                <option value="discount">Discount</option>
-                                <option value="promo">Promotion</option>
-                                <option value="other">Other</option>
-                            </select>
-                            <input type="text" class="edit-input" placeholder="Notes (optional)" style="flex-grow: 1;">
-                            <div class="adjust-actions">
-                                <button class="action-btn apply-btn apply-adjustment" data-line-id="${newLineId}">Apply</button>
-                                <button class="action-btn cancel-btn cancel-adjustment" data-line-id="${newLineId}">Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-                <td class="amount line-subtotal" data-line-id="${newLineId}">$0.00</td>
-                <td>
-                    <button class="edit-line-btn delete-line-btn" data-line-id="${newLineId}">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </td>
-            `;
-            
-            tableBody.appendChild(newRow);
-            attachEventListenersToRow(newRow);
-            updateTotals();
-        });
-        
-        // Add Additional Fee Button
-        document.getElementById('addFeeBtn').addEventListener('click', () => {
-            const feeAmount = prompt('Enter additional fee amount:', '0.00');
-            if (feeAmount !== null) {
-                const amount = parseFloat(feeAmount) || 0;
-                if (amount > 0) {
-                    alert(`Additional fee of $${amount.toFixed(2)} will be added.`);
-                    document.getElementById('additionalFees').textContent = `$${amount.toFixed(2)}`;
-                    updateTotals();
-                }
-            }
-        });
-        
-        // Save as Draft
-        document.getElementById('saveDraftBtn').addEventListener('click', () => {
-            alert('Invoice saved as draft successfully!');
-            closeMainModal();
-        });
-        
-        // Save & Send
-        document.getElementById('saveSendBtn').addEventListener('click', () => {
-            if (confirm('Save changes and send invoice to member?')) {
-                alert('Invoice saved and sent successfully!');
-                closeMainModal();
-            }
-        });
-        
-        // Preview
-        document.getElementById('previewBtn').addEventListener('click', () => {
-            alert('Preview functionality would show a PDF view of the invoice.');
-        });
-        
-        // Helper Functions
-        function attachEventListenersToRow(row) {
-            const lineId = row.dataset.lineId;
-            
-            row.querySelectorAll('.editable-field').forEach(field => {
-                const staticText = field.querySelector('.static-text');
-                const editInput = field.querySelector('.edit-input');
-                
-                staticText.addEventListener('click', () => {
-                    field.classList.add('editing');
-                    editInput.focus();
-                    if (editInput.type !== 'date') {
-                        editInput.select();
-                    }
-                });
-                
-                editInput.addEventListener('blur', () => {
-                    if (editInput.value.trim() !== '') {
-                        staticText.textContent = editInput.value;
-                    }
-                    field.classList.remove('editing');
-                    updateLineItemTotal(lineId);
-                });
-                
-                editInput.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') {
-                        editInput.blur();
-                    }
-                });
-            });
-            
-            const adjustBtn = row.querySelector('.adjust-line-btn');
-            adjustBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const adjustmentDiv = document.getElementById(`adjustment-${lineId}`);
-                if (adjustmentDiv.style.display === 'block') {
-                    adjustmentDiv.style.display = 'none';
-                } else {
-                    document.querySelectorAll('.line-item-adjustment').forEach(adj => {
-                        adj.style.display = 'none';
-                    });
-                    adjustmentDiv.style.display = 'block';
-                }
-            });
-            
-            row.querySelectorAll('.adjust-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const toggleGroup = btn.closest('.adjust-type-toggle');
-                    toggleGroup.querySelectorAll('.adjust-btn').forEach(b => {
-                        b.classList.remove('active');
-                    });
-                    btn.classList.add('active');
-                });
-            });
-            
-            const applyBtn = row.querySelector('.apply-adjustment');
-            applyBtn.addEventListener('click', () => {
-                const adjustmentDiv = document.getElementById(`adjustment-${lineId}`);
-                const amountInput = adjustmentDiv.querySelector('.amount-input');
-                const typeToggle = adjustmentDiv.querySelector('.adjust-btn.active');
-                const reasonSelect = adjustmentDiv.querySelector('.reason-select');
-                
-                const feeField = row.querySelector('.editable-field[data-field^="fee"] .static-text');
-                const currentFee = parseFloat(feeField.textContent.replace('$', '')) || 0;
-                const adjustment = parseFloat(amountInput.value) || 0;
-                
-                let newFee;
-                if (typeToggle.dataset.type === 'add') {
-                    newFee = currentFee + adjustment;
-                } else {
-                    newFee = currentFee - adjustment;
-                    if (newFee < 0) newFee = 0;
-                }
-                
-                feeField.textContent = `$${newFee.toFixed(2)}`;
-                const feeInput = feeField.parentElement.querySelector('.edit-input');
-                feeInput.value = newFee.toFixed(2);
-                
-                adjustmentDiv.style.display = 'none';
-                updateLineItemTotal(lineId);
-            });
-            
-            const cancelBtn = row.querySelector('.cancel-adjustment');
-            cancelBtn.addEventListener('click', () => {
-                const adjustmentDiv = document.getElementById(`adjustment-${lineId}`);
-                adjustmentDiv.style.display = 'none';
-            });
-            
-            const deleteBtn = row.querySelector('.delete-line-btn');
-            deleteBtn.addEventListener('click', () => {
-                if (confirm('Are you sure you want to delete this line item?')) {
-                    row.remove();
-                    updateTotals();
-                }
-            });
-        }
-        
-        function updateLineItemTotal(lineId) {
-            const row = document.querySelector(`tr[data-line-id="${lineId}"]`);
-            const feeField = row.querySelector('.editable-field[data-field^="fee"] .static-text');
-            const fee = parseFloat(feeField.textContent.replace('$', '')) || 0;
-            const subtotalCell = row.querySelector('.line-subtotal');
-            
-            subtotalCell.textContent = `$${fee.toFixed(2)}`;
-            updateTotals();
-        }
-        
-        function updateTotals() {
-            let subtotal = 0;
-            
-            document.querySelectorAll('.line-subtotal').forEach(cell => {
-                const amount = parseFloat(cell.textContent.replace('$', '')) || 0;
-                subtotal += amount;
-            });
-            
-            const discountsText = document.getElementById('discounts').textContent;
-            const additionalFeesText = document.getElementById('additionalFees').textContent;
-            
-            const discounts = parseFloat(discountsText.replace('-$', '').replace('$', '')) || 0;
-            const additionalFees = parseFloat(additionalFeesText.replace('$', '')) || 0;
-            
-            const tax = 0;
-            const totalDue = subtotal - discounts + additionalFees + tax;
-            
-            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
-            document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
-            document.getElementById('totalDue').textContent = `$${totalDue.toFixed(2)}`;
-        }
-        
-        // Initialize adjustments
-        document.querySelectorAll('.line-item-adjustment').forEach(adj => {
-            adj.style.display = 'none';
-        });
-        
-        // Initialize character counters
-        charCount.textContent = teamNotes.value.length;
-        creditCharCount.textContent = creditNotes.value.length;
-        
-        // Initialize applied credits section
-        document.getElementById('appliedCreditsSection').style.display = 'none';
-        
-        // Initialize calculations
-        updateTotals();
-    </script>
-</body>
-</html>
+              </div>
+            </div>
+
+            <div className="border-t border-dashed border-slate-300" />
+
+            <div className="grid gap-4 lg:grid-cols-[56px_1fr]">
+              <LevelBadge level="2" color={GREEN} />
+              <div className="space-y-4">
+                <h2 className="text-2xl font-black uppercase" style={{ color: NAVY }}>Doctor-Approved Diagnostic Pathways</h2>
+                <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                  <Box title="Hepatocellular Pattern" color={GREEN} tint="#f3fbf5">
+                    Doctor-approved options may include complete chemistry review, urinalysis, bile acids/hepatic function testing, abdominal ultrasound, and liver sampling if indicated.
+                  </Box>
+                  <Box title="Cholangitis / Cholangiohepatitis" color={GREEN} tint="#f3fbf5">
+                    Doctor-approved options may include abdominal ultrasound, bile acids, bile/urine culture, infectious testing, and biopsy when clinically justified.
+                  </Box>
+                  <Box title="Biliary Obstruction" color={GREEN} tint="#f3fbf5">
+                    Doctor-approved options may include abdominal ultrasound, bile acids, ERCP or exploratory surgery planning, and advanced referral when indicated.
+                  </Box>
+                  <Box title="Portosystemic Shunt (PSS)" color={GREEN} tint="#f3fbf5">
+                    Doctor-approved options may include bile acids, ammonia level, Doppler ultrasound, CT angiography, and specialty referral.
+                  </Box>
+                  <Box title="Neoplasia" color={GREEN} tint="#f3fbf5">
+                    If tumor suspect, protocol supports 3-view radiographs. Other staging, ultrasound, cytology/FNA, CT, or biopsy should be doctor-approved.
+                  </Box>
+                  <Box title="Non-Hepatic Cause" color={GREEN} tint="#f3fbf5">
+                    Treat or investigate the underlying non-hepatic condition as directed; recheck ALP trend only when approved or bundled with an authorized protocol trigger.
+                  </Box>
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-dashed border-slate-300" />
+
+            <div className="grid gap-4 lg:grid-cols-[56px_1fr]">
+              <LevelBadge level="3" color={BURGUNDY} />
+              <div className="grid gap-4 md:grid-cols-2">
+                <Box title="Advanced / Specialized Diagnostics" color={BURGUNDY} tint="#fff5f7" icon={FlaskConical}>
+                  Advanced imaging, ERCP/endoscopy, liver biopsy, laparoscopy/open surgery, CT/MRI, culture, cytology/FNA, and internal medicine referral are not automatic Pet Nurse tests. Use Diagnostic & Requisition workflow and doctor approval.
+                </Box>
+                <Box title="Monitoring" color={BURGUNDY} tint="#fff5f7" icon={ClipboardCheck}>
+                  Trend ALP and related liver values only as part of an approved recheck plan. Document patient response, medications, clinical signs, and whether the elevation is improving, stable, or worsening.
+                </Box>
+              </div>
+            </div>
+          </div>
+
+          <aside className="space-y-5">
+            <div className="overflow-hidden rounded-2xl border-2 shadow-sm" style={{ borderColor: HANNAH_BLUE }}>
+              <div className="px-5 py-3 text-lg font-black uppercase text-white" style={{ backgroundColor: HANNAH_BLUE }}>Critter Clues</div>
+              <div className="p-5 text-sm leading-relaxed">
+                <BulletList items={[
+                  "ALP is not specific to liver disease.",
+                  "Confirm the elevation before escalating.",
+                  "Patient age, medications, physiologic status, and bone disease matter.",
+                  "Hepatic vs. extrahepatic source determines the next doctor-approved path.",
+                  "Advanced testing should identify the cause, not simply repeat tests."
+                ]} />
+              </div>
+            </div>
+
+            <div className="overflow-hidden rounded-2xl border-2 shadow-sm" style={{ borderColor: BURGUNDY }}>
+              <div className="px-5 py-3 text-lg font-black uppercase text-white" style={{ backgroundColor: BURGUNDY }}>PetNurse Workflow</div>
+              <ol className="space-y-3 p-5 text-sm leading-relaxed">
+                {[
+                  "Obtain history and perform complete physical exam.",
+                  "Confirm ALP elevation and review all existing lab results.",
+                  "Check whether a Hannah protocol trigger allows automatic testing.",
+                  "If no trigger applies, document and submit Diagnostic & Requisition request.",
+                  "After doctor approval, support selected Level 2 diagnostics.",
+                  "Escalate advanced diagnostics only when directed.",
+                  "Communicate findings and plan with the pet parent as directed.",
+                  "Document all findings, approvals, tests, treatments, and outcomes."
+                ].map((step, idx) => (
+                  <li key={idx} className="flex gap-3">
+                    <span className="flex h-6 w-6 flex-none items-center justify-center rounded-full text-xs font-black text-white" style={{ backgroundColor: BURGUNDY }}>{idx + 1}</span>
+                    <span>{step}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+
+            <div className="rounded-2xl border-2 border-slate-200 bg-slate-50 p-5 text-xs leading-relaxed text-slate-700">
+              <h3 className="mb-2 text-sm font-black uppercase" style={{ color: NAVY }}>Abbreviations</h3>
+              <p><b>ALP</b> = alkaline phosphatase • <b>US</b> = ultrasound • <b>ERCP</b> = endoscopic retrograde cholangiopancreatography • <b>CT</b> = computed tomography • <b>MRI</b> = magnetic resonance imaging • <b>FNA</b> = fine needle aspirate • <b>PSS</b> = portosystemic shunt</p>
+            </div>
+          </aside>
+        </section>
+
+        <footer className="flex flex-wrap items-center justify-between gap-3 px-8 py-5 text-sm font-semibold text-white" style={{ backgroundColor: NAVY }}>
+          <span>TOTAL LIFETIME CARE™</span>
+          <span>Compassion. Expertise. Lifelong Partnership.</span>
+          <span>WWW.HANNAHPETHOSPITAL.COM</span>
+        </footer>
+      </div>
+    </main>
+  );
+}
+
