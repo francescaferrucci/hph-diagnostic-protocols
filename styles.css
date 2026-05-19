@@ -70,6 +70,12 @@ h1 span {
   font-weight: 700;
 }
 
+.checkbox-list {
+  list-style-type: none; /* Removes the bullet point */
+  padding: 0;           /* Optional: Removes default indentation */
+  margin: 0;
+}
+
 .badge {
   position: absolute;
   top: 34px;
