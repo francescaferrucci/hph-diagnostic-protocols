@@ -23,8 +23,8 @@
         <p>
           Elevated ALP is a laboratory finding, not a stand-alone presenting complaint. Begin with history,
           physical exam, and review/confirmation of the existing lab result. Additional bloodwork, bile acids,
-          urinalysis, ultrasound, culture, cytology/FNA, biopsy, infectious disease testing, or referral
-          diagnostics require a Diagnostic & Requisition Form and CMO approval unless the Pet also meets
+          urinalysis, ultrasound, CT/MRI, culture, cytology/FNA, biopsy, infectious disease testing, or referral
+          diagnostics require a Diagnostic & Requisition form and doctor approval unless the patient also meets
           a listed Hannah presenting-complaint testing trigger.
         </p>
       </section>
@@ -109,9 +109,7 @@
                           <h4>NO</h4>
                           <ul>
                             <li>☐ Do not add CBC, chemistry, UA, bile acids, T4, imaging, or infectious testing.</li>
-                            <li>☐ <a href="Form - Diagnostic & Requistion Fillable Form.pdf" target="_blank">
-                              Submit Diagnostic & Requisition request
-                              </a> request.</li>
+                            <li>☐ <a href="#" class="open-jotform">Submit Diagnostic &amp; Requisition request</a>.</li>
                             <li>☐ Route case for doctor approval.</li>
                           </ul>
                         </div>
@@ -165,7 +163,7 @@
             <div class="flow-content two-col">
               <article class="box burgundy fill-red">
                 <h3>Advanced / Specialized Diagnostics</h3>
-                <p>Advanced imaging, ERCP/endoscopy, liver biopsy, laparoscopy/open surgery, culture, cytology/FNA, and internal medicine referral are not automatic Pet Nurse tests. Use Diagnostic & Requisition workflow and doctor approval.</p>
+                <p>Advanced imaging, ERCP/endoscopy, liver biopsy, laparoscopy/open surgery, CT/MRI, culture, cytology/FNA, and internal medicine referral are not automatic Pet Nurse tests. Use Diagnostic & Requisition workflow and doctor approval.</p>
               </article>
               <article class="box burgundy fill-red">
                 <h3>Monitoring</h3>
@@ -215,5 +213,64 @@
       </footer>
     </section>
   </main>
+
+      <div id="jotformModal" class="modal" aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="jotformTitle">
+          <button id="closeJotform" class="close-button" type="button" aria-label="Close form">×</button>
+          <h2 id="jotformTitle">Diagnostic &amp; Requisition Form</h2>
+          <iframe
+            id="JotFormIFrame-261380809696065"
+            title="Diagnostic & Requisition Form"
+            onload="window.parent.scrollTo(0,0)"
+            allowtransparency="true"
+            allow="geolocation; microphone; camera; fullscreen; payment"
+            src="https://form.jotform.com/261380809696065"
+            frameborder="0"
+            style="min-width:100%;max-width:100%;height:539px;border:none;"
+            scrolling="no">
+          </iframe>
+        </div>
+      </div>
+
+      <script src="https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js"></script>
+      <script>
+        window.jotformEmbedHandler("iframe[id='JotFormIFrame-261380809696065']", "https://form.jotform.com/");
+
+        const modal = document.getElementById("jotformModal");
+        const closeButton = document.getElementById("closeJotform");
+        const openLinks = document.querySelectorAll(".open-jotform");
+
+        function openJotformModal(event) {
+          event.preventDefault();
+          modal.style.display = "flex";
+          modal.setAttribute("aria-hidden", "false");
+          document.body.classList.add("modal-open");
+        }
+
+        function closeJotformModal() {
+          modal.style.display = "none";
+          modal.setAttribute("aria-hidden", "true");
+          document.body.classList.remove("modal-open");
+        }
+
+        openLinks.forEach(link => {
+          link.addEventListener("click", openJotformModal);
+        });
+
+        closeButton.addEventListener("click", closeJotformModal);
+
+        modal.addEventListener("click", function(event) {
+          if (event.target === modal) {
+            closeJotformModal();
+          }
+        });
+
+        document.addEventListener("keydown", function(event) {
+          if (event.key === "Escape" && modal.style.display === "flex") {
+            closeJotformModal();
+          }
+        });
+      </script>
+
 </body>
 </html>
