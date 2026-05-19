@@ -552,3 +552,197 @@ h1 span {
     grid-template-columns: 1fr;
   }
 }
+
+/* Jotform Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(8, 36, 92, 0.72);
+}
+
+.modal-content {
+  position: relative;
+  width: min(960px, 96vw);
+  max-height: 92vh;
+  overflow: auto;
+  background: #fff;
+  border-radius: 22px;
+  padding: 28px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+}
+
+.modal-content h2 {
+  margin: 0 46px 18px 0;
+  color: var(--navy);
+  font-size: 26px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.close-button {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  background: var(--burgundy);
+  color: #fff;
+  font-size: 26px;
+  line-height: 1;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  opacity: 0.88;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+.open-jotform {
+  color: var(--burgundy);
+  font-weight: 800;
+  text-decoration: none;
+  border-bottom: 1px solid var(--burgundy);
+}
+
+.open-jotform:hover {
+  opacity: 0.8;
+}
+
+/* If/Then Checklist Flowchart */
+.decision-workflow {
+  margin-top: 18px;
+}
+
+.decision-workflow h2 {
+  margin: 0 0 16px;
+  color: var(--navy);
+  font-size: 24px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.decision-card {
+  border: 2px solid var(--hannah-blue);
+  border-radius: 22px;
+  background: #f3fbfe;
+  padding: 22px;
+  box-shadow: 0 2px 8px rgba(8, 36, 92, 0.06);
+}
+
+.decision-step {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.step-label {
+  min-width: 92px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--navy);
+  color: #fff;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-content h3 {
+  margin: 0 0 12px;
+  color: var(--navy);
+  font-size: 18px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.step-content ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.step-content li {
+  margin-bottom: 9px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.workflow-arrow {
+  margin: 14px 0;
+  text-align: center;
+  color: var(--burgundy);
+  font-size: 32px;
+  font-weight: 900;
+}
+
+.if-then-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.if-box {
+  border-radius: 18px;
+  padding: 18px;
+  background: #fff;
+  border: 2px solid transparent;
+}
+
+.if-box h4 {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.if-box.green {
+  border-color: var(--green);
+}
+
+.if-box.green h4 {
+  color: var(--green);
+}
+
+.if-box.red {
+  border-color: var(--burgundy);
+}
+
+.if-box.red h4 {
+  color: var(--burgundy);
+}
+
+.decision-text {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #334155;
+}
+
+@media (max-width: 720px) {
+  .decision-step {
+    flex-direction: column;
+  }
+
+  .if-then-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-content {
+    padding: 18px;
+  }
+}
