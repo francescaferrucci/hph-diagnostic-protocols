@@ -348,6 +348,19 @@ h1 span {
   font-weight: 800;
 }
 
+.step-content a,
+  .if-box a {
+    color: var(--burgundy);
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1px solid var(--burgundy);
+  }
+  
+  .step-content a:hover,
+  .if-box a:hover {
+    opacity: 0.8;
+  }
+
 @media (max-width: 1050px) {
   .content-grid {
     grid-template-columns: 1fr;
