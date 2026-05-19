@@ -171,59 +171,75 @@
       </div>
 
 
-      <section id="petnurse-checklist" class="petnurse-checklist">
-        <div class="checklist-header">
-          <div class="checklist-icon">✓</div>
-          <div>
-            <h2>PetNurse Checklist</h2>
-            <p>Step-by-step checklist aligned with current Hannah diagnostic testing protocols.</p>
+     <section class="decision-workflow">
+
+      <h2>Confirm Elevation Before Escalating</h2>
+    
+      <div class="decision-card blue">
+        <div class="decision-step">
+          <div class="step-label">STEP 1</div>
+          <div class="step-content">
+            <h3>Verify ALP Elevation</h3>
+            <ul>
+              <li>☐ Confirm ALP value and trend</li>
+              <li>☐ Review ALT/AST/GGT/bilirubin</li>
+              <li>☐ Check for lipemia or hemolysis</li>
+              <li>☐ Rule out sample/transcription error</li>
+              <li>☐ Assess whether elevation is mild or isolated</li>
+            </ul>
           </div>
         </div>
-
-        <div class="checklist-grid">
-          <article class="checklist-card">
-            <div class="checklist-label level-one">Level 1 — Intake & Verification</div>
+    
+        <div class="workflow-arrow">↓</div>
+    
+        <div class="decision-step">
+          <div class="step-label">IF YES</div>
+          <div class="step-content">
+            <h3>Possible Physiologic / Non-Hepatic Cause</h3>
             <ul>
-              <li>☐ Obtain complete patient history.</li>
-              <li>☐ Perform and document physical exam findings.</li>
-              <li>☐ Review all existing lab work.</li>
-              <li>☐ Confirm ALP elevation and check trend if available.</li>
-              <li>☐ Rule out hemolysis, lipemia, sample error, or transcription error.</li>
-              <li>☐ Review medications, endocrine history, and recent surgery/trauma.</li>
-              <li>☐ Determine whether a current Hannah protocol trigger allows additional testing.</li>
-              <li>☐ If no trigger applies, submit Diagnostic & Requisition request before further testing.</li>
+              <li>☐ Young/growing patient</li>
+              <li>☐ Pregnancy or lactation</li>
+              <li>☐ Recent fracture or orthopedic surgery</li>
+              <li>☐ Glucocorticoid or anticonvulsant medication</li>
+              <li>☐ Hyperthyroidism in cats</li>
             </ul>
-          </article>
-
-          <article class="checklist-card">
-            <div class="checklist-label level-two">Level 2 — Approved Diagnostics</div>
-            <ul>
-              <li>☐ Verify doctor approval is documented in the chart.</li>
-              <li>☐ Prepare patient for approved diagnostics only.</li>
-              <li>☐ Collect samples according to approved testing plan.</li>
-              <li>☐ Confirm imaging requests and patient prep instructions.</li>
-              <li>☐ Label and submit all samples correctly.</li>
-              <li>☐ Monitor patient comfort, stress level, and safety.</li>
-              <li>☐ Notify doctor immediately of critical findings.</li>
-              <li>☐ Document completed diagnostics and pending results.</li>
-            </ul>
-          </article>
-
-          <article class="checklist-card">
-            <div class="checklist-label level-three">Level 3 — Follow-Up & Communication</div>
-            <ul>
-              <li>☐ Review finalized results with doctor.</li>
-              <li>☐ Confirm treatment and recheck recommendations.</li>
-              <li>☐ Schedule approved recheck testing if needed.</li>
-              <li>☐ Provide pet parent with approved next-step instructions.</li>
-              <li>☐ Upload diagnostics and records into patient chart.</li>
-              <li>☐ Confirm referrals or specialty consults if ordered.</li>
-              <li>☐ Document all communication with pet parent.</li>
-              <li>☐ Close workflow only after all follow-up items are completed.</li>
-            </ul>
-          </article>
+          </div>
         </div>
-      </section>
+    
+        <div class="workflow-arrow">↓</div>
+    
+        <div class="decision-step">
+          <div class="step-label">THEN</div>
+          <div class="step-content">
+            <h3>Determine Protocol Eligibility</h3>
+            <p class="decision-text">
+              Does the patient meet a current Hannah diagnostic testing trigger?
+            </p>
+    
+            <div class="if-then-grid">
+              <div class="if-box green">
+                <h4>YES</h4>
+                <ul>
+                  <li>☐ Proceed only with protocol-approved testing</li>
+                  <li>☐ Follow presenting complaint workflow</li>
+                  <li>☐ Document all testing performed</li>
+                </ul>
+              </div>
+    
+              <div class="if-box red">
+                <h4>NO</h4>
+                <ul>
+                  <li>☐ Do not add CBC, chemistry, UA, bile acids, T4, imaging, or infectious testing</li>
+                  <li>☐ Submit Diagnostic & Requisition request</li>
+                  <li>☐ Route case for doctor approval</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+      </div>
+    </section>
 
       <footer class="footer">
         <span>TOTAL LIFETIME CARE™</span>
