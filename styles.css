@@ -845,3 +845,34 @@ body.modal-open {
     text-align: center;
   }
 }
+
+.form-action{
+  margin:24px 0 8px;
+}
+
+.primary-form-button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  background:#41b6e6;
+  color:#ffffff;
+  text-decoration:none;
+  padding:14px 22px;
+  border-radius:14px;
+  font-weight:700;
+  font-size:0.95rem;
+  letter-spacing:.02em;
+  transition:all .2s ease;
+  box-shadow:0 10px 24px rgba(0,48,87,.12);
+}
+
+.primary-form-button:hover{
+  background:#003057;
+  transform:translateY(-2px);
+}
+
+.primary-form-button::before{
+  content:"🩺";
+  font-size:1rem;
+}
