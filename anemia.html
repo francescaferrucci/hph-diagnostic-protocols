@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Diagnostic Algorithm for Anemia</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+  <header class="workflow-header">
+    <div class="workflow-header-inner">
+      <a href="index.html" class="hub-button">← Workflow Hub</a>
+
+      <div class="workflow-search-wrap">
+        <input type="text" id="workflowSearch" placeholder="Search workflows..." autocomplete="off" />
+
+        <div id="workflowDropdown" class="workflow-dropdown">
+          <a href="anemia.html">Anemia</a>
+          <a href="acute-vomiting.html">Acute Vomiting</a>
+          <a href="anorexia.html">Anorexia</a>
+          <a href="ascites.html">Ascites</a>
+          <a href="coughing.html">Coughing</a>
+          <a href="diarrhea.html">Diarrhea</a>
+          <a href="dysuria-incontinence.html">Dysuria/Incontinence</a>
+          <a href="ehrlichiosis-e-canis.html">Ehrlichiosis Infections</a>
+          <a href="elevated-alp.html">Elevated ALP</a>
+          <a href="fever-unknown-origin.html">Fever of Unknown Origin</a>
+          <a href="growth-lump.html">Growth/Lump</a>
+          <a href="lameness.html">Lameness</a>
+          <a href="malaise.html">Malaise</a>
+          <a href="otic-disorder.html">Otic Disorder</a>
+          <a href="pruritis.html">Pruritis (Itchy Skin)</a>
+          <a href="red-eye.html">Red Eye</a>
+          <a href="seizures.html">Seizures</a>
+          <a href="sneezing-nasal-discharge.html">Sneezing or Nasal Discharge</a>
+          <a href="suspected-canine-hypothyroidism.html">Suspected Canine Hypothyroidism</a>
+          <a href="suspected-feline-hyperthyroidism.html">Suspected Feline Hyperthyroidism</a>
+          <a href="urine-protein-creatinine-ratio.html">Urine Protein/Creatinine Ratio</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="poster">
+
+      <header class="header">
+        <div>
+          <p class="eyebrow">Diagnostic Algorithm</p>
+          <h1>Anemia</h1>
+          <p class="subtitle">Protocol-aligned workflow for Pets with pale mucous membranes or suspected anemia.</p>
+        </div>
+        <div class="badge">Protocol-aligned<br>May 2026</div>
+      </header>
+
+      <section class="guardrail">
+        <h2>Testing Guardrail</h2>
+        <p>
+          Under Hannah Diagnostic Testing Protocols, automatic testing for a Dog or Cat with pale mucous membranes
+          is limited to CBC. CBC is also protocol-approved when bleeding, toxin exposure, or pyometra is suspected.
+          Diagnostics beyond these protocol triggers require Diagnostic &amp; Requisition submission and CMO approval.
+        </p>
+      </section>
+
+      <div class="content-grid">
+
+        <section class="main-flow">
+
+          <div class="level-row">
+            <div class="level level-1">LEVEL 1</div>
+
+            <div class="flow-content">
+              <div class="start">SUSPECTED ANEMIA / PALE MUCOUS MEMBRANES</div>
+
+              <div class="three-col">
+                <article class="box navy">
+                  <h3>History</h3>
+                  <ul>
+                    <li>Current medications</li>
+                    <li>Known toxin exposure</li>
+                    <li>Bleeding or trauma history</li>
+                    <li>Vomiting, diarrhea, melena, or blood loss</li>
+                    <li>Prior illness or chronic disease</li>
+                    <li>Appetite, energy, collapse, or weakness</li>
+                  </ul>
+                </article>
+
+                <article class="box navy">
+                  <h3>Physical Exam</h3>
+                  <ul>
+                    <li>Mucous membrane color</li>
+                    <li>Capillary refill time</li>
+                    <li>Heart rate and respiratory rate</li>
+                    <li>Pulse quality</li>
+                    <li>Abdominal distension or pain</li>
+                    <li>Evidence of bleeding, bruising, or parasites</li>
+                  </ul>
+                </article>
+
+                <article class="box navy">
+                  <h3>Confirm Protocol Trigger</h3>
+                  <ul>
+                    <li>Pale mucous membranes?</li>
+                    <li>Bleeding concern?</li>
+                    <li>Toxin concern?</li>
+                    <li>Pyometra concern?</li>
+                    <li>Respiratory distress?</li>
+                    <li>Trauma or tumor suspect?</li>
+                  </ul>
+                </article>
+              </div>
+
+              <div class="arrow">↓</div>
+
+              <section class="decision-workflow">
+                <h2>Determine Protocol-Approved Testing</h2>
+
+                <div class="decision-card">
+
+                  <div class="decision-step">
+                    <div class="step-label">STEP 1</div>
+                    <div class="step-content">
+                      <h3>Is a CBC Allowed by Protocol?</h3>
+
+                      <div class="if-then-grid">
+                        <div class="if-box green">
+                          <h4>YES — CBC APPROVED</h4>
+                          <ul>
+                            <li>☐ Pale mucous membranes</li>
+                            <li>☐ Bleeding concern</li>
+                            <li>☐ Toxin concern</li>
+                            <li>☐ Pyometra concern</li>
+                          </ul>
+                        </div>
+
+                        <div class="if-box red">
+                          <h4>NO CLEAR TRIGGER</h4>
+                          <ul>
+                            <li>☐ Do not add CBC or additional diagnostics automatically.</li>
+                            <li>☐ <a href="#" class="open-jotform">Submit Diagnostic &amp; Requisition request</a>.</li>
+                            <li>☐ CMO approval required before proceeding.</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="workflow-arrow">↓</div>
+
+                  <div class="decision-step">
+                    <div class="step-label">STEP 2</div>
+                    <div class="step-content">
+                      <h3>Are Additional Diagnostics Needed?</h3>
+                      <p class="decision-text">
+                        CBC may confirm anemia, but additional diagnostics to classify anemia or identify the cause
+                        are above the basic Diagnostic Testing Protocols unless another approved trigger applies.
+                      </p>
+
+                      <div class="if-then-grid">
+                        <div class="if-box green">
+                          <h4>X-RAYS MAY BE APPROVED IF</h4>
+                          <ul>
+                            <li>☐ Respiratory distress</li>
+                            <li>☐ Tumor suspect, 3 views</li>
+                            <li>☐ Vehicular trauma</li>
+                            <li>☐ Other listed x-ray trigger applies</li>
+                          </ul>
+                        </div>
+
+                        <div class="if-box red">
+                          <h4>CMO APPROVAL REQUIRED</h4>
+                          <ul>
+                            <li>☐ Reticulocyte count</li>
+                            <li>☐ Blood smear evaluation</li>
+                            <li>☐ Chemistry/internal organ screen</li>
+                            <li>☐ Urinalysis</li>
+                            <li>☐ FeLV/FIV or heartworm testing</li>
+                            <li>☐ Coagulation testing</li>
+                            <li>☐ Ultrasound, biopsy, PCR, endoscopy, or referral diagnostics</li>
+                          </ul>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+              </section>
+            </div>
+          </div>
+
+          <hr class="dash" />
+
+          <div class="level-row">
+            <div class="level level-2">LEVEL 2</div>
+
+            <div class="flow-content">
+              <h2 class="section-title">Protocol-Approved Pathways</h2>
+
+              <div class="cards">
+                <article class="box green fill-green">
+                  <h3>Pale Mucous Membranes</h3>
+                  <p>
+                    Protocol-approved diagnostic: CBC only. Document mucous membrane color, CRT,
+                    vitals, hydration status, and clinical concern.
+                  </p>
+                </article>
+
+                <article class="box green fill-green">
+                  <h3>Bleeding Concern</h3>
+                  <p>
+                    CBC is protocol-approved. Additional coagulation testing, imaging, ultrasound,
+                    or specialty diagnostics require CMO approval unless another listed protocol trigger applies.
+                  </p>
+                </article>
+
+                <article class="box green fill-green">
+                  <h3>Toxin Concern</h3>
+                  <p>
+                    CBC is protocol-approved. Toxicology, chemistry profile, urinalysis, coagulation testing,
+                    or additional diagnostics require CMO approval unless specifically directed.
+                  </p>
+                </article>
+
+                <article class="box green fill-green">
+                  <h3>Pyometra Concern</h3>
+                  <p>
+                    CBC is protocol-approved. Any additional diagnostics or imaging should follow protocol
+                    triggers or require CMO approval.
+                  </p>
+                </article>
+
+                <article class="box green fill-green">
+                  <h3>Respiratory Distress</h3>
+                  <p>
+                    CBC is protocol-approved, and x-rays are protocol-approved if respiratory distress is present.
+                    Escalate immediately due to patient risk.
+                  </p>
+                </article>
+
+                <article class="box green fill-green">
+                  <h3>Trauma or Tumor Suspect</h3>
+                  <p>
+                    X-rays are protocol-approved for vehicular trauma, obvious broken bone or dislocated joint,
+                    or tumor suspect. Tumor suspect requires 3 views.
+                  </p>
+                </article>
+              </div>
+            </div>
+          </div>
+
+          <hr class="dash" />
+
+          <div class="level-row">
+            <div class="level level-3">LEVEL 3</div>
+
+            <div class="flow-content two-col">
+              <article class="box burgundy fill-red">
+                <h3>CMO Approval Required Diagnostics</h3>
+                <p>
+                  Reticulocyte count, blood smear evaluation, slide agglutination, urinalysis,
+                  chemistry/internal organ screen, FeLV/FIV, heartworm testing, fecal testing,
+                  coagulation profile, ACT, PT/PTT, BMBT, von Willebrand testing, PCR testing,
+                  toxicology, iron levels, abdominal ultrasound, endoscopy, biopsy, bone marrow
+                  aspirate/biopsy, or referral diagnostics require Diagnostic &amp; Requisition
+                  submission and CMO approval.
+                </p>
+              </article>
+
+              <article class="box burgundy fill-red">
+                <h3>Monitoring / Escalation</h3>
+                <p>
+                  If the Pet is weak, collapsing, has pale or white mucous membranes, abnormal vitals,
+                  active bleeding, respiratory distress, or worsening clinical status, escalate immediately
+                  while staying within protocol-approved diagnostics unless CMO approval is obtained.
+                </p>
+              </article>
+            </div>
+          </div>
+
+        </section>
+
+        <aside class="sidebar">
+
+          <section class="panel critter">
+            <h2>Critter Clues</h2>
+            <ul>
+              <li>Anemia is a finding, not a diagnosis.</li>
+              <li>Confirm pale mucous membranes and patient stability first.</li>
+              <li>CBC is allowed for pale mucous membranes, bleeding, toxin, or pyometra concern.</li>
+              <li>Do not automatically add reticulocyte count, blood smear, chemistry, UA, or imaging.</li>
+              <li>Diagnostics above protocol require CMO approval.</li>
+            </ul>
+          </section>
+
+          <section class="panel workflow">
+            <h2>PetNurse Workflow</h2>
+            <ol>
+              <li>Obtain history and perform physical exam.</li>
+              <li>Assess mucous membrane color, CRT, vitals, pulse quality, and stability.</li>
+              <li>Determine whether a protocol trigger applies.</li>
+              <li>Run CBC only when allowed by protocol.</li>
+              <li>Use x-rays only when a listed x-ray trigger applies.</li>
+              <li>Submit Diagnostic &amp; Requisition request for diagnostics above protocol.</li>
+              <li>Route for CMO approval when required.</li>
+              <li>Document findings, approvals, diagnostics, treatments, and monitoring plan.</li>
+            </ol>
+          </section>
+
+          <section class="abbr">
+            <h2>Protocol Summary</h2>
+            <p>
+              <strong>Pale mucous membranes:</strong> CBC<br>
+              <strong>Bleeding/toxin/pyometra:</strong> CBC<br>
+              <strong>Respiratory distress:</strong> CBC; x-rays allowed<br>
+              <strong>Other diagnostics:</strong> CMO approval required
+            </p>
+          </section>
+
+        </aside>
+
+      </div>
+
+      <footer class="footer">
+        <span>TOTAL LIFETIME CARE™</span>
+        <span>Compassion. Expertise. Lifelong Partnership.</span>
+        <span>WWW.HANNAHPETHOSPITAL.COM</span>
+      </footer>
+
+    </section>
+  </main>
+
+  <div id="jotformModal" class="modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="jotformTitle">
+      <button id="closeJotform" class="close-button" type="button" aria-label="Close form">×</button>
+      <h2 id="jotformTitle">Diagnostic &amp; Requisition Form</h2>
+
+      <iframe
+        id="JotFormIFrame-261380809696065"
+        title="Diagnostic & Requisition Form"
+        onload="window.parent.scrollTo(0,0)"
+        allowtransparency="true"
+        allow="geolocation; microphone; camera; fullscreen; payment"
+        src="https://form.jotform.com/261380809696065"
+        frameborder="0"
+        style="min-width:100%;max-width:100%;height:539px;border:none;"
+        scrolling="no">
+      </iframe>
+    </div>
+  </div>
+
+  <script src="https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js"></script>
+
+  <script>
+    window.jotformEmbedHandler("iframe[id='JotFormIFrame-261380809696065']", "https://form.jotform.com/");
+
+    const modal = document.getElementById("jotformModal");
+    const closeButton = document.getElementById("closeJotform");
+    const openLinks = document.querySelectorAll(".open-jotform");
+
+    function openJotformModal(event) {
+      event.preventDefault();
+      modal.style.display = "flex";
+      modal.setAttribute("aria-hidden", "false");
+      document.body.classList.add("modal-open");
+    }
+
+    function closeJotformModal() {
+      modal.style.display = "none";
+      modal.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("modal-open");
+    }
+
+    openLinks.forEach(link => {
+      link.addEventListener("click", openJotformModal);
+    });
+
+    closeButton.addEventListener("click", closeJotformModal);
+
+    modal.addEventListener("click", function(event) {
+      if (event.target === modal) {
+        closeJotformModal();
+      }
+    });
+
+    document.addEventListener("keydown", function(event) {
+      if (event.key === "Escape" && modal.style.display === "flex") {
+        closeJotformModal();
+      }
+    });
+  </script>
+
+  <script>
+    const workflowSearch = document.getElementById("workflowSearch");
+    const workflowDropdown = document.getElementById("workflowDropdown");
+    const workflowLinks = workflowDropdown.querySelectorAll("a");
+
+    workflowSearch.addEventListener("focus", () => {
+      workflowDropdown.classList.add("show");
+    });
+
+    workflowSearch.addEventListener("input", () => {
+      const value = workflowSearch.value.toLowerCase();
+
+      workflowLinks.forEach(link => {
+        const text = link.textContent.toLowerCase();
+        link.style.display = text.includes(value) ? "block" : "none";
+      });
+
+      workflowDropdown.classList.add("show");
+    });
+
+    document.addEventListener("click", function(event) {
+      if (
+        !workflowSearch.contains(event.target) &&
+        !workflowDropdown.contains(event.target)
+      ) {
+        workflowDropdown.classList.remove("show");
+      }
+    });
+  </script>
+
+</body>
+</html>
