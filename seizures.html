@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hannah Pet Hospital | Seizure Diagnostic Workflow</title>
+  <style>
+    :root {
+      /* Hannah palette based on uploaded PMS colors */
+      --hannah-yellow: #FDD757; /* PMS 121 */
+      --hannah-orange: #E87722; /* PMS 158 */
+      --hannah-red: #862633;    /* PMS 202 */
+      --hannah-blue: #41B6E6;   /* PMS 298 */
+      --hannah-green: #43B02A;  /* PMS 361 */
+      --hannah-navy: #003057;   /* PMS 541 */
+      --bg: #f6fbfe;
+      --card: #ffffff;
+      --muted: #5c6b78;
+      --line: #ccd8e2;
+      --shadow: 0 12px 30px rgba(0, 48, 87, 0.12);
+      --radius: 18px;
+      --font-sans: Arial, Helvetica, sans-serif;
+      --font-serif: Georgia, serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      background: linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
+      color: var(--hannah-navy);
+    }
+
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 22px 0 30px;
+      border-bottom: 4px solid var(--hannah-blue);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo-mark {
+      width: 92px;
+      height: 92px;
+      border: 3px solid var(--hannah-blue);
+      border-radius: 24px;
+      display: grid;
+      place-items: center;
+      background: white;
+      box-shadow: var(--shadow);
+    }
+
+    .logo-mark span {
+      font-family: var(--font-serif);
+      color: var(--hannah-blue);
+      font-size: 25px;
+      line-height: 1;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.7rem, 3vw, 2.75rem);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--hannah-navy);
+    }
+
+    .subtitle {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 680px;
+    }
+
+    .status-pill {
+      background: var(--hannah-green);
+      color: white;
+      font-weight: 700;
+      padding: 12px 16px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .notice {
+      margin: 24px 0;
+      padding: 18px 20px;
+      background: #fff8e4;
+      border-left: 8px solid var(--hannah-yellow);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .notice strong { color: var(--hannah-red); }
+
+    .workflow {
+      display: grid;
+      gap: 18px;
+    }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 10px;
+      color: white;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .section-label span {
+      background: var(--hannah-navy);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.9rem;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .row.single { grid-template-columns: 1fr; }
+
+    .card {
+      background: var(--card);
+      border: 2px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 14px 18px;
+      color: white;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .red .card-header { background: var(--hannah-red); }
+    .blue .card-header { background: var(--hannah-navy); }
+    .green .card-header { background: var(--hannah-green); }
+    .orange .card-header { background: var(--hannah-orange); }
+    .sky .card-header { background: var(--hannah-blue); }
+
+    .card-body { padding: 16px 18px 18px; }
+
+    ul, ol { margin: 0; padding-left: 1.3rem; }
+    li { margin: 0.45rem 0; }
+
+    .arrow {
+      display: grid;
+      place-items: center;
+      color: var(--hannah-navy);
+      font-size: 2rem;
+      line-height: 1;
+      font-weight: 900;
+      margin: -6px 0;
+    }
+
+    .decision {
+      border-color: var(--hannah-red);
+    }
+
+    .decision .card-body {
+      display: grid;
+      gap: 12px;
+    }
+
+    .choice {
+      padding: 14px;
+      border: 2px dashed var(--line);
+      border-radius: 14px;
+      background: #fbfdff;
+    }
+
+    .choice strong { color: var(--hannah-red); }
+
+    .approved {
+      border-left: 8px solid var(--hannah-green);
+    }
+
+    .requires-approval {
+      border-left: 8px solid var(--hannah-orange);
+    }
+
+    .diagnosis {
+      border-left: 8px solid var(--hannah-green);
+    }
+
+    .stop {
+      border-left: 8px solid var(--hannah-red);
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .small { font-size: 0.92rem; color: var(--muted); }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .print-note {
+      margin-top: 24px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 850px) {
+      header, .brand { align-items: flex-start; }
+      header { flex-direction: column; }
+      .row, .grid-3, .footer-grid { grid-template-columns: 1fr; }
+      .status-pill { white-space: normal; }
+    }
+
+    @media print {
+      body { background: white; }
+      .page { max-width: none; padding: 12px; }
+      .card, .notice, .logo-mark { box-shadow: none; }
+      .workflow { gap: 10px; }
+      .arrow { margin: -8px 0; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <div class="brand">
+        <div class="logo-mark" aria-label="Hannah Pet Hospital logo placeholder">
+          <span>hannah<br><small>pet hospital</small></span>
+        </div>
+        <div>
+          <h1>Seizure Diagnostic Workflow</h1>
+          <p class="subtitle">Aligned to Hannah Diagnostic Testing Protocols for PetNurse decision support.</p>
+        </div>
+      </div>
+      <div class="status-pill">PetNurse Workflow Tool</div>
+    </header>
+
+    <section class="notice" aria-label="Protocol notice">
+      <strong>Protocol control:</strong> Seizures are not listed as a pre-approved presenting complaint on the Hannah Diagnostic Testing Protocols. Complete the approved baseline steps first. Any additional bloodwork, imaging, specialized infectious disease testing, ECG, MRI, CSF tap, or other diagnostics require a Diagnostic &amp; Requisition Form and approval by Dr. Horner or Dr. Phillips before proceeding, unless a veterinarian has already directly authorized the test.
+    </section>
+
+    <section class="workflow" aria-label="Seizure workflow flow chart">
+      <div class="section-label"><span>Start</span></div>
+
+      <div class="row single">
+        <article class="card red">
+          <div class="card-header">Seizure / Suspected Seizure Event</div>
+          <div class="card-body">
+            <ol>
+              <li>Assess and stabilize patient.</li>
+              <li>Notify veterinarian if active seizure, cluster seizures, status epilepticus, toxin concern, severe trauma, respiratory distress, pale mucous membranes, or other emergency signs are present.</li>
+              <li>Obtain focused seizure history: onset, duration, frequency, recovery, possible toxin exposure, medications, diet, trauma, and video if available.</li>
+            </ol>
+          </div>
+        </article>
+      </div>
+
+      <div class="arrow">↓</div>
+
+      <div class="row single">
+        <article class="card blue">
+          <div class="card-header">Level 1 — Initial Assessment</div>
+          <div class="card-body">
+            <ul>
+              <li>History</li>
+              <li>Full physical exam</li>
+              <li>Cardiac exam</li>
+              <li>Neurologic exam</li>
+              <li>Differentiate generalized vs. focal seizure when possible</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="arrow">↓</div>
+
+      <div class="row single">
+        <article class="card green approved">
+          <div class="card-header">Approved Baseline Diagnostics First</div>
+          <div class="card-body">
+            <ul>
+              <li><strong>CBC</strong> as baseline bloodwork.</li>
+              <li><strong>Short chemistry / internal organ screen</strong> when clinically indicated and veterinarian-approved as part of baseline evaluation.</li>
+              <li><strong>Urinalysis</strong> only when included in the patient’s age/status protocol or veterinarian-approved.</li>
+              <li><strong>FeLV/FIV for cats</strong> only when age/status protocol applies or veterinarian-approved.</li>
+              <li><strong>Fecal exam</strong> only when age/status protocol applies or veterinarian-approved.</li>
+            </ul>
+            <p class="small">Do not add unapproved blood tests before completing the required baseline pathway.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="arrow">↓</div>
+
+      <div class="row single">
+        <article class="card orange decision">
+          <div class="card-header">Decision Point — Diagnosis or Clear Veterinarian Direction?</div>
+          <div class="card-body">
+            <div class="choice diagnosis"><strong>Yes:</strong> Follow veterinarian treatment plan. Begin/adjust anticonvulsant therapy only as directed. Monitor therapeutic drug levels when prescribed.</div>
+            <div class="choice stop"><strong>No:</strong> Do not proceed directly to advanced testing. Complete a Diagnostic &amp; Requisition Form and submit to Dr. Horner or Dr. Phillips for approval.</div>
+          </div>
+        </article>
+      </div>
+
+      <div class="arrow">↓</div>
+
+      <div class="section-label"><span>Requires Approval</span></div>
+
+      <div class="row single">
+        <article class="card orange requires-approval">
+          <div class="card-header">Level 2 — Advanced Database After Approval</div>
+          <div class="card-body grid-3">
+            <ul>
+              <li>Thyroid panel</li>
+              <li>Bile acids</li>
+              <li>Lead/toxin testing</li>
+              <li>Cholinesterase</li>
+            </ul>
+            <ul>
+              <li>ECG</li>
+              <li>Radiographs</li>
+              <li>Tick titers</li>
+              <li>Toxoplasmosis</li>
+            </ul>
+            <ul>
+              <li>Distemper antibody IFA — serum</li>
+              <li>Distemper antigen IFA — blood smear or conjunctival smear</li>
+              <li>Distemper antibody on CSF</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="arrow">↓</div>
+
+      <div class="row">
+        <article class="card green">
+          <div class="card-header">Diagnosis Reached</div>
+          <div class="card-body">
+            <ul>
+              <li>Communicate plan to team and pet parent.</li>
+              <li>Document diagnostics, approval, treatment, monitoring plan, and recheck timing.</li>
+              <li>Monitor medication response and side effects.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="card orange requires-approval">
+          <div class="card-header">No Diagnosis After Level 2</div>
+          <div class="card-body">
+            <p>Veterinarian reviews results. If still unresolved, obtain approval before Level 3 neurodiagnostics.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="arrow">↓</div>
+
+      <div class="row single">
+        <article class="card blue requires-approval">
+          <div class="card-header">Level 3 — Advanced Neurodiagnostics After Approval</div>
+          <div class="card-body">
+            <ul>
+              <li>CSF tap</li>
+              <li>MRI</li>
+              <li>Distemper antibody on CSF when indicated</li>
+              <li>Specialist referral or advanced care plan as directed by veterinarian</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="footer-grid" aria-label="Reference guidance">
+      <article class="card sky">
+        <div class="card-header">PetNurse Reminders</div>
+        <div class="card-body">
+          <ul>
+            <li>Stabilization and safety come first.</li>
+            <li>Always document seizure description and recovery period.</li>
+            <li>Flag toxin exposure, trauma, cluster seizures, and prolonged events immediately.</li>
+            <li>Confirm approval before any testing outside baseline protocol.</li>
+          </ul>
+        </div>
+      </article>
+      <article class="card red">
+        <div class="card-header">Approval Rule</div>
+        <div class="card-body">
+          <p>For any diagnostic not already approved by Hannah Diagnostic Testing Protocols, complete the Diagnostic &amp; Requisition Form and send to Dr. Horner or Dr. Phillips for approval before moving forward.</p>
+        </div>
+      </article>
+    </section>
+
+    <p class="print-note">Hannah Pet Hospital · Total Lifetime Care™ · Internal clinical workflow support</p>
+  </main>
+</body>
+</html>
