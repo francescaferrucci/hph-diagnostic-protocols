@@ -346,6 +346,39 @@
           }
         });
       </script>
-
+      <script>
+        const workflowSearch = document.getElementById("workflowSearch");
+        const workflowDropdown = document.getElementById("workflowDropdown");
+        const workflowLinks = workflowDropdown.querySelectorAll("a");
+      
+        workflowSearch.addEventListener("focus", () => {
+          workflowDropdown.classList.add("show");
+        });
+      
+        workflowSearch.addEventListener("input", () => {
+          const value = workflowSearch.value.toLowerCase();
+      
+          workflowLinks.forEach(link => {
+            const text = link.textContent.toLowerCase();
+      
+            if (text.includes(value)) {
+              link.style.display = "block";
+            } else {
+              link.style.display = "none";
+            }
+          });
+      
+          workflowDropdown.classList.add("show");
+        });
+      
+        document.addEventListener("click", function(event) {
+          if (
+            !workflowSearch.contains(event.target) &&
+            !workflowDropdown.contains(event.target)
+          ) {
+            workflowDropdown.classList.remove("show");
+          }
+        });
+      </script>
 </body>
 </html>
