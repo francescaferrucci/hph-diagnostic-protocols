@@ -10,6 +10,8 @@
       --hannah-blue: #51b5e0;
       --hannah-navy: #1f3b54;
       --hannah-orange: #ff6308;
+      --hannah-red: #862633;
+      --hannah-green: #43b02a;
       --soft-blue: #eef9fd;
       --white: #ffffff;
       --text: #243746;
@@ -40,10 +42,7 @@
       z-index: 10;
     }
 
-    .logo {
-      max-width: 230px;
-      height: auto;
-    }
+    .logo { max-width: 230px; height: auto; }
 
     .header-pill {
       background: var(--soft-blue);
@@ -109,10 +108,11 @@
       justify-content: center;
       gap: 12px;
       margin: 24px auto 0;
-      max-width: 900px;
+      max-width: 980px;
     }
 
-    .quick-actions a {
+    .quick-actions a,
+    .quick-actions button {
       text-decoration: none;
       background: var(--white);
       color: var(--hannah-navy);
@@ -121,9 +121,13 @@
       padding: 12px 18px;
       font-weight: 800;
       box-shadow: 0 8px 22px rgba(31, 59, 84, 0.1);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 14px;
     }
 
-    .quick-actions a:hover {
+    .quick-actions a:hover,
+    .quick-actions button:hover {
       border-color: var(--hannah-blue);
       color: var(--hannah-blue);
     }
@@ -138,7 +142,8 @@
       margin-bottom: 52px;
     }
 
-    .workflow-category h2 {
+    .workflow-category h2,
+    .results-heading {
       color: var(--hannah-navy);
       font-size: 28px;
       margin: 0 0 20px;
@@ -162,11 +167,12 @@
       box-shadow: var(--shadow);
       border: 1px solid rgba(31, 59, 84, 0.08);
       transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-      min-height: 190px;
+      min-height: 210px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       overflow: hidden;
+      position: relative;
     }
 
     .workflow-card:hover {
@@ -181,7 +187,7 @@
       align-items: flex-start;
       gap: 14px;
     }
-    
+
     .icon {
       width: 44px;
       height: 44px;
@@ -214,6 +220,37 @@
       overflow-wrap: anywhere;
     }
 
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 14px;
+    }
+
+    .badge {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: var(--soft-blue);
+      color: var(--hannah-navy);
+    }
+
+    .badge.emergency {
+      background: #ffe8e8;
+      color: var(--hannah-red);
+    }
+
+    .badge.approved {
+      background: #eaf7e7;
+      color: var(--hannah-green);
+    }
+
+    .badge.cmo {
+      background: #fff2e8;
+      color: var(--hannah-orange);
+    }
+
     .open-link {
       margin-top: auto;
       padding-top: 18px;
@@ -221,6 +258,8 @@
       font-weight: 800;
       font-size: 14px;
     }
+
+    .hidden { display: none !important; }
 
     .no-results {
       display: none;
@@ -233,6 +272,134 @@
       margin-top: 20px;
     }
 
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(31, 59, 84, 0.45);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 26px;
+      max-width: 760px;
+      width: 100%;
+      max-height: 90vh;
+      overflow: auto;
+      padding: 28px;
+      box-shadow: 0 24px 60px rgba(31, 59, 84, 0.35);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: start;
+      margin-bottom: 18px;
+    }
+
+    .modal-header h2 {
+      margin: 0;
+      color: var(--hannah-navy);
+    }
+
+    .close-button {
+      border: none;
+      background: var(--soft-blue);
+      color: var(--hannah-navy);
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .wizard-step { display: none; }
+    .wizard-step.active { display: block; }
+
+    .wizard-options {
+      display: grid;
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .wizard-options button {
+      text-align: left;
+      border: 2px solid rgba(81, 181, 224, 0.25);
+      background: var(--soft-blue);
+      color: var(--hannah-navy);
+      border-radius: 16px;
+      padding: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 15px;
+    }
+
+    .wizard-options button:hover,
+    .wizard-options button.selected {
+      border-color: var(--hannah-blue);
+      background: white;
+    }
+
+    .wizard-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .wizard-actions button,
+    .wizard-result a {
+      border: none;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: none;
+      font-family: inherit;
+    }
+
+    .primary-btn {
+      background: var(--hannah-blue);
+      color: white;
+    }
+
+    .secondary-btn {
+      background: var(--soft-blue);
+      color: var(--hannah-navy);
+    }
+
+    .wizard-result {
+      background: var(--soft-blue);
+      border-radius: 20px;
+      padding: 20px;
+      margin-top: 16px;
+    }
+
+    .wizard-result h3 {
+      margin: 0 0 10px;
+      color: var(--hannah-navy);
+    }
+
+    .floating-form {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      background: var(--hannah-orange);
+      color: white;
+      text-decoration: none;
+      padding: 14px 18px;
+      border-radius: 999px;
+      font-weight: 800;
+      box-shadow: 0 16px 34px rgba(31, 59, 84, 0.28);
+      z-index: 50;
+    }
+
     footer {
       background: var(--hannah-navy);
       color: var(--white);
@@ -241,7 +408,14 @@
       font-size: 14px;
     }
 
-    @media (max-width: 720px) {
+    .version {
+      display: block;
+      opacity: 0.75;
+      margin-top: 8px;
+      font-size: 12px;
+    }
+
+    @media (max-width: 768px) {
       header {
         flex-direction: column;
         align-items: flex-start;
@@ -254,6 +428,16 @@
       .hero {
         padding-top: 48px;
       }
+
+      .workflow-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .floating-form {
+        left: 18px;
+        right: 18px;
+        text-align: center;
+      }
     }
   </style>
 </head>
@@ -262,7 +446,7 @@
 
   <header>
     <img src="Hannah Logo 2colorPMS PetHospital.png" alt="Hannah Pet Hospital" class="logo" />
-    <div class="header-pill">Diagnostic Workflow Hub</div>
+    <div class="header-pill">Clinical Decision Support Center</div>
   </header>
 
   <section class="hero">
@@ -277,320 +461,329 @@
       <input
         type="text"
         id="workflowSearch"
-        placeholder="Search by symptom, presenting complaint, diagnosis, or keyword..."
+        placeholder="Search: pale gums, vomiting, can’t pee, itchy skin, difficulty breathing..."
         onkeyup="filterWorkflows()"
       />
     </div>
 
     <div class="quick-actions">
+      <button type="button" onclick="openWizard()">🧭 Start Guided Triage</button>
       <a href="https://form.jotform.com/261380809696065" target="_blank">📋 Diagnostic &amp; Requisition Form</a>
+      <a href="Form - Hannah Diagnostic Testing Protocols(1).pdf" target="_blank">📖 Diagnostic Testing Protocols</a>
       <a href="respiratory-distress.html">🚨 Respiratory Distress</a>
       <a href="dysuria-incontinence.html">🚽 Blocked Cat / Can’t Pee</a>
     </div>
   </section>
 
   <main>
-
-    <section class="workflow-category">
-      <h2>Emergency Presentations</h2>
-      <div class="workflow-grid">
-
-        <a href="respiratory-distress.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">🫁</div><h3>Respiratory Distress</h3></div>
-            <p>Emergency workflow for difficulty breathing, labored breathing, cyanosis, or collapse.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-        <a href="anemia.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">🩸</div><h3>Anemia</h3></div>
-            <p>Workflow for pale mucous membranes, suspected anemia, bleeding, toxin, or pyometra concern.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-        <a href="acute-vomiting.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">🤢</div><h3>Acute Vomiting</h3></div>
-            <p>Workflow for productive vomiting, non-productive vomiting, or suspected foreign body.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-        <a href="seizures.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">⚡</div><h3>Seizures</h3></div>
-            <p>Workflow for seizure activity, seizure-like episodes, toxin concern, or neurologic events.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-        <a href="dysuria-incontinence.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">🚽</div><h3>Dysuria/Incontinence</h3></div>
-            <p>Workflow for straining to urinate, blocked cat, no urination, accidents, or abnormal urination.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-      </div>
+    <section id="recentSection" class="workflow-category hidden">
+      <h2>⭐ Recently Used</h2>
+      <div class="workflow-grid" id="recentGrid"></div>
     </section>
 
-    <section class="workflow-category">
-      <h2>Gastrointestinal</h2>
-      <div class="workflow-grid">
-
-        <a href="acute-vomiting.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">🤢</div><h3>Acute Vomiting</h3></div>
-            <p>Initial triage and diagnostic process for acute vomiting.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-        <a href="diarrhea.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">💩</div><h3>Diarrhea</h3></div>
-            <p>Workflow for diarrhea, puppy diarrhea, loose stool, or straining to defecate.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-        <a href="anorexia.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">🍽️</div><h3>Anorexia</h3></div>
-            <p>Workflow for Pets who are not eating, off food, or have reduced appetite.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-        <a href="ascites.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">💧</div><h3>Ascites</h3></div>
-            <p>Diagnostic approach for abdominal fluid, swollen abdomen, or distension.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-      </div>
-    </section>
-
-    <section class="workflow-category">
-      <h2>Respiratory</h2>
-      <div class="workflow-grid">
-
-        <a href="respiratory-distress.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">🫁</div><h3>Respiratory Distress</h3></div>
-            <p>Emergency workflow for difficulty breathing or labored breathing.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-        <a href="coughing.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">🫁</div><h3>Coughing</h3></div>
-            <p>Respiratory workflow for coughing, hacking, gagging, or suspected airway disease.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-        <a href="sneezing-nasal-discharge.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">🤧</div><h3>Sneezing or Nasal Discharge</h3></div>
-            <p>Upper respiratory workflow for sneezing, nasal discharge, runny nose, or congestion.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-      </div>
-    </section>
-
-    <section class="workflow-category">
-      <h2>Urinary</h2>
-      <div class="workflow-grid">
-
-        <a href="dysuria-incontinence.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">🚽</div><h3>Dysuria/Incontinence</h3></div>
-            <p>Urinary workflow for straining, accidents, leakage, or abnormal urination.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-        <a href="polyuria-polydipsia.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">💧</div><h3>Polyuria/Polydipsia</h3></div>
-            <p>Workflow for increased urination, increased thirst, or drinking more.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-        <a href="urine-protein-creatinine-ratio.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">🧪</div><h3>Urine Protein/Creatinine Ratio</h3></div>
-            <p>Workflow for proteinuria, UPC testing, kidney disease, or renal concerns.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-      </div>
-    </section>
-
-    <section class="workflow-category">
-      <h2>Skin/Eyes/Ears</h2>
-      <div class="workflow-grid">
-
-        <a href="pruritis.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">🐕</div><h3>Pruritis</h3></div>
-            <p>Itchy skin workflow for scratching, licking, allergies, rash, or hair loss.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-        <a href="otic-disorder.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">👂</div><h3>Otic Disorder</h3></div>
-            <p>Workflow for ear infection, head shaking, discharge, odor, or ear pain.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-        <a href="red-eye.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">👁️</div><h3>Red Eye</h3></div>
-            <p>Ophthalmic workflow for red, painful, swollen, cloudy, or abnormal eyes.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-      </div>
-    </section>
-
-    <section class="workflow-category">
-      <h2>Musculoskeletal/Soft Tissue</h2>
-      <div class="workflow-grid">
-
-        <a href="lameness.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">🐾</div><h3>Lameness</h3></div>
-            <p>Workflow for limping, pain, fracture, dislocation, trauma, paresis, or paralysis.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-        <a href="growth-lump.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">🔎</div><h3>Growth/Lump</h3></div>
-            <p>Workflow for masses, swellings, nodules, tumors, bumps, or new growths.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-      </div>
-    </section>
-
-    <section class="workflow-category">
-      <h2>Endocrine/Metabolic</h2>
-      <div class="workflow-grid">
-
-        <a href="elevated-alp.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">📈</div><h3>Elevated ALP</h3></div>
-            <p>Diagnostic workflow for elevated alkaline phosphatase, high ALP, or liver enzyme concerns.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-        <a href="suspected-canine-hypothyroidism.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">🐶</div><h3>Suspected Canine Hypothyroidism</h3></div>
-            <p>Endocrine workflow for suspected low thyroid disease in dogs.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-        <a href="suspected-feline-hyperthyroidism.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">🐱</div><h3>Suspected Feline Hyperthyroidism</h3></div>
-            <p>Endocrine workflow for suspected high thyroid disease in cats.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-      </div>
-    </section>
-
-    <section class="workflow-category">
-      <h2>Systemic Disease</h2>
-      <div class="workflow-grid">
-
-        <a href="fever-unknown-origin.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">🌡️</div><h3>Fever of Unknown Origin</h3></div>
-            <p>Diagnostic pathway for persistent fever, high temperature, or unexplained fever.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-        <a href="malaise.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">😔</div><h3>Malaise</h3></div>
-            <p>General diagnostic pathway for lethargy, weakness, fatigue, or not-doing-well Pets.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-        <a href="ehrlichiosis-e-canis.html" class="workflow-card">
-          <div>
-            <div class="card-top"><div class="icon">🦠</div><h3>Ehrlichiosis Infections</h3></div>
-            <p>Workflow for suspected or confirmed E. canis, tick disease, or vector-borne concern.</p>
-          </div>
-          <div class="open-link">Open workflow →</div>
-        </a>
-
-      </div>
-    </section>
-
-    <div id="noResults" class="no-results">
-      No workflows matched your search. Try a symptom like “pale gums,” “can’t pee,” “vomiting,” “itchy,” or “difficulty breathing.”
+    <div id="searchResults" class="workflow-category hidden">
+      <h2 class="results-heading">🔎 Search Results</h2>
+      <div class="workflow-grid" id="searchGrid"></div>
     </div>
 
+    <div id="categoryContainer"></div>
+
+    <div id="noResults" class="no-results">
+      No workflows matched your search. Try “pale gums,” “can’t pee,” “vomiting,” “itchy,” or “difficulty breathing.”
+    </div>
   </main>
+
+  <a href="https://form.jotform.com/261380809696065" target="_blank" class="floating-form">
+    📋 Diagnostic Request
+  </a>
+
+  <div id="wizardModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Guided Triage</h2>
+        <button class="close-button" type="button" onclick="closeWizard()">×</button>
+      </div>
+
+      <div class="wizard-step active" id="stepComplaint">
+        <h3>What is the primary presenting complaint?</h3>
+        <div class="wizard-options" id="complaintOptions"></div>
+      </div>
+
+      <div class="wizard-step" id="stepDuration">
+        <h3>How long has this been occurring?</h3>
+        <div class="wizard-options">
+          <button onclick="selectDuration('today')">Today / less than 24 hours</button>
+          <button onclick="selectDuration('48')">24–48 hours</button>
+          <button onclick="selectDuration('72')">More than 48–72 hours</button>
+          <button onclick="selectDuration('chronic')">Chronic / ongoing</button>
+          <button onclick="selectDuration('unknown')">Unknown</button>
+        </div>
+      </div>
+
+      <div class="wizard-step" id="stepAge">
+        <h3>Patient age group?</h3>
+        <div class="wizard-options">
+          <button onclick="selectAge('under1')">Less than 1 year</button>
+          <button onclick="selectAge('adult')">2–8 years</button>
+          <button onclick="selectAge('senior')">Over 8 years</button>
+          <button onclick="selectAge('unknown')">Unknown</button>
+        </div>
+      </div>
+
+      <div class="wizard-step" id="stepFlags">
+        <h3>Any urgent signs present?</h3>
+        <div class="wizard-options">
+          <button onclick="finishWizard('respiratory distress difficulty breathing')">Difficulty breathing / respiratory distress</button>
+          <button onclick="finishWizard('pale gums pale mucous membranes anemia')">Pale gums / pale mucous membranes</button>
+          <button onclick="finishWizard('blocked cat cannot urinate straining to urinate')">Can’t urinate / blocked cat concern</button>
+          <button onclick="finishWizard('toxin seizure tremors')">Toxin concern / seizure-like signs</button>
+          <button onclick="finishWizard('trauma broken bone lameness')">Trauma / broken bone concern</button>
+          <button onclick="finishWizard('none')">None of these</button>
+        </div>
+      </div>
+
+      <div class="wizard-step" id="stepResult">
+        <h3>Recommended Workflow</h3>
+        <div id="wizardResult" class="wizard-result"></div>
+        <div class="wizard-actions">
+          <button type="button" class="secondary-btn" onclick="restartWizard()">Start Over</button>
+          <button type="button" class="secondary-btn" onclick="closeWizard()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <footer>
     Hannah Pet Hospital | Internal Diagnostic Workflow Resource
+    <span class="version">Diagnostic Testing Protocols Version: May 2026 | Hub Updated: July 2026</span>
   </footer>
 
   <script>
-    const workflowIndex = {
-      "anemia.html": "anemia anaemia pale mucous membranes pale mucus membranes pale gums white gums bleeding blood loss hemorrhage low pcv low hct low hematocrit weakness collapse toxin pyometra",
-      "acute-vomiting.html": "acute vomiting vomiting vomit puke throwing up nausea retching productive vomiting non productive vomiting foreign body obstruction suspected foreign body vomiting more than 48 hours",
-      "anorexia.html": "anorexia not eating won't eat will not eat off food loss of appetite poor appetite inappetence not eating 48 hours not eating 72 hours",
-      "ascites.html": "ascites fluid abdomen fluid belly swollen abdomen distended abdomen abdominal swelling pot belly abdominal fluid effusion",
-      "coughing.html": "cough coughing hacking gagging honking kennel cough dry cough productive cough tracheal collapse respiratory",
-      "diarrhea.html": "diarrhea diarrhoea loose stool soft stool bloody diarrhea bloody stool melena hematochezia puppy diarrhea no defecation straining to defecate constipation",
-      "dysuria-incontinence.html": "dysuria incontinence urinary accident urinary leakage dribbling urine blood in urine hematuria can't pee cannot urinate not urinating no urination blocked cat urinary obstruction straining to urinate painful urination",
-      "ehrlichiosis-e-canis.html": "ehrlichiosis ehrlichia e canis tick disease tick bite tick fever ehrlichia canis vector borne disease",
-      "elevated-alp.html": "alp alkaline phosphatase elevated alp high alp alk phos liver enzymes high liver values cholestasis",
-      "fever-unknown-origin.html": "fever fuo fever unknown origin high temperature unknown fever persistent fever",
-      "growth-lump.html": "growth lump mass tumor tumour skin mass skin growth swelling bump nodule tumor suspect cancer",
-      "lameness.html": "lameness limping limp won't bear weight broken bone fracture dislocation sprain injury leg pain vehicular trauma paresis paralysis",
-      "malaise.html": "malaise lethargy tired weak not acting normal quiet depressed not feeling well fatigue",
-      "otic-disorder.html": "ear ears ear infection otic otitis ear odor ear smell ear discharge head shaking scratching ears ear pain hematoma",
-      "polyuria-polydipsia.html": "polyuria polydipsia pu pd pupd drinking more drinking excessively peeing more urinating more increased thirst increased urination water intake",
-      "pruritis.html": "pruritis pruritus itching itchy skin itchy scratching licking paws chewing paws skin allergy allergy rash hot spot hair loss",
-      "red-eye.html": "red eye eye redness red eyes conjunctivitis eye discharge squinting painful eye cloudy eye eye injury",
-      "respiratory-distress.html": "respiratory distress difficulty breathing labored breathing hard breathing dyspnea dyspnoea can't breathe cannot breathe open mouth breathing cyanosis blue gums oxygen shortness of breath",
-      "seizures.html": "seizure seizures convulsion convulsions fit epilepsy cluster seizure status epilepticus collapse tremors neurologic toxin",
-      "sneezing-nasal-discharge.html": "sneezing nasal discharge runny nose nasal drainage nasal congestion reverse sneeze reverse sneezing upper respiratory uri stuffy nose",
-      "suspected-canine-hypothyroidism.html": "hypothyroidism hypothyroid low thyroid thyroid weight gain hair loss alopecia lethargy dog thyroid canine hypothyroidism",
-      "suspected-feline-hyperthyroidism.html": "hyperthyroidism hyperthyroid high thyroid cat thyroid feline hyperthyroidism weight loss ravenous appetite thyroid disease",
-      "urine-protein-creatinine-ratio.html": "urine protein proteinuria upc urine protein creatinine ratio protein in urine kidney disease renal disease ckd albuminuria"
-    };
+    const workflows = [
+      {
+        title: "Respiratory Distress",
+        href: "respiratory-distress.html",
+        icon: "🫁",
+        category: "🚨 Emergency Presentations",
+        alsoIn: ["🫁 Respiratory"],
+        description: "Emergency workflow for difficulty breathing, labored breathing, cyanosis, or collapse.",
+        badges: ["🚨 Emergency", "CBC", "X-rays"],
+        keywords: "respiratory distress difficulty breathing labored breathing hard breathing dyspnea dyspnoea cannot breathe can't breathe open mouth breathing cyanosis blue gums oxygen shortness of breath collapse"
+      },
+      {
+        title: "Anemia",
+        href: "anemia.html",
+        icon: "🩸",
+        category: "🚨 Emergency Presentations",
+        description: "Workflow for pale mucous membranes, suspected anemia, bleeding, toxin, or pyometra concern.",
+        badges: ["🚨 Emergency", "CBC"],
+        keywords: "anemia anaemia pale mucous membranes pale mucus membranes pale gums white gums bleeding blood loss hemorrhage low pcv low hct low hematocrit weakness collapse toxin pyometra"
+      },
+      {
+        title: "Acute Vomiting",
+        href: "acute-vomiting.html",
+        icon: "🤢",
+        category: "🚨 Emergency Presentations",
+        alsoIn: ["🍽 Gastrointestinal"],
+        description: "Workflow for productive vomiting, non-productive vomiting, or suspected foreign body.",
+        badges: ["CBC + Short Profile", "X-rays", "CMO Approval"],
+        keywords: "acute vomiting vomiting vomit puke throwing up nausea retching productive vomiting non productive vomiting foreign body obstruction suspected foreign body vomiting more than 48 hours"
+      },
+      {
+        title: "Seizures",
+        href: "seizures.html",
+        icon: "⚡",
+        category: "🚨 Emergency Presentations",
+        description: "Workflow for seizure activity, seizure-like episodes, toxin concern, or neurologic events.",
+        badges: ["🚨 Emergency", "CMO Approval"],
+        keywords: "seizure seizures convulsion convulsions fit epilepsy cluster seizure status epilepticus collapse tremors neurologic toxin"
+      },
+      {
+        title: "Dysuria/Incontinence",
+        href: "dysuria-incontinence.html",
+        icon: "🚽",
+        category: "🚨 Emergency Presentations",
+        alsoIn: ["💧 Urinary"],
+        description: "Workflow for straining to urinate, blocked cat, no urination, accidents, or abnormal urination.",
+        badges: ["🚨 Blocked Cat", "Profile Only", "X-rays"],
+        keywords: "dysuria incontinence urinary accident urinary leakage dribbling urine blood in urine hematuria cannot pee can't pee cannot urinate not urinating no urination blocked cat urinary obstruction straining to urinate painful urination pollakiuria"
+      },
+      {
+        title: "Diarrhea",
+        href: "diarrhea.html",
+        icon: "💩",
+        category: "🍽 Gastrointestinal",
+        description: "Workflow for diarrhea, puppy diarrhea, loose stool, or straining to defecate.",
+        badges: ["CBC + Short Profile", "Parvo", "X-rays"],
+        keywords: "diarrhea diarrhoea loose stool soft stool bloody diarrhea bloody stool melena hematochezia puppy diarrhea kitten diarrhea no defecation straining to defecate constipation"
+      },
+      {
+        title: "Anorexia",
+        href: "anorexia.html",
+        icon: "🍽️",
+        category: "🍽 Gastrointestinal",
+        description: "Workflow for Pets who are not eating, off food, or have reduced appetite.",
+        badges: ["CBC + Short Profile"],
+        keywords: "anorexia not eating won't eat will not eat off food loss of appetite poor appetite inappetence not eating 48 hours not eating 72 hours"
+      },
+      {
+        title: "Ascites",
+        href: "ascites.html",
+        icon: "💧",
+        category: "🍽 Gastrointestinal",
+        description: "Diagnostic approach for abdominal fluid, swollen abdomen, or distension.",
+        badges: ["CMO Approval"],
+        keywords: "ascites fluid abdomen fluid belly swollen abdomen distended abdomen abdominal swelling pot belly abdominal fluid effusion"
+      },
+      {
+        title: "Coughing",
+        href: "coughing.html",
+        icon: "🫁",
+        category: "🫁 Respiratory",
+        description: "Respiratory workflow for coughing, hacking, gagging, or suspected airway disease.",
+        badges: ["CMO Approval"],
+        keywords: "cough coughing hacking gagging honking kennel cough dry cough productive cough tracheal collapse respiratory"
+      },
+      {
+        title: "Sneezing or Nasal Discharge",
+        href: "sneezing-nasal-discharge.html",
+        icon: "🤧",
+        category: "🫁 Respiratory",
+        description: "Upper respiratory workflow for sneezing, nasal discharge, runny nose, or congestion.",
+        badges: ["CMO Approval"],
+        keywords: "sneezing nasal discharge runny nose nasal drainage nasal congestion reverse sneeze reverse sneezing upper respiratory uri stuffy nose"
+      },
+      {
+        title: "Polyuria/Polydipsia",
+        href: "polyuria-polydipsia.html",
+        icon: "💧",
+        category: "💧 Urinary",
+        description: "Workflow for increased urination, increased thirst, or drinking more.",
+        badges: ["CBC + Profile/Electrolytes"],
+        keywords: "polyuria polydipsia pu pd pupd drinking more drinking excessively peeing more urinating more increased thirst increased urination water intake"
+      },
+      {
+        title: "Urine Protein/Creatinine Ratio",
+        href: "urine-protein-creatinine-ratio.html",
+        icon: "🧪",
+        category: "💧 Urinary",
+        description: "Workflow for proteinuria, UPC testing, kidney disease, or renal concerns.",
+        badges: ["CMO Approval"],
+        keywords: "urine protein proteinuria upc urine protein creatinine ratio protein in urine kidney disease renal disease ckd glomerular disease albuminuria"
+      },
+      {
+        title: "Pruritis",
+        href: "pruritis.html",
+        icon: "🐕",
+        category: "👁 Skin / Eyes / Ears",
+        description: "Itchy skin workflow for scratching, licking, allergies, rash, or hair loss.",
+        badges: ["CMO Approval"],
+        keywords: "pruritis pruritus itching itchy skin itchy scratching licking paws chewing paws skin allergy allergy rash hot spot hair loss"
+      },
+      {
+        title: "Otic Disorder",
+        href: "otic-disorder.html",
+        icon: "👂",
+        category: "👁 Skin / Eyes / Ears",
+        description: "Workflow for ear infection, head shaking, discharge, odor, or ear pain.",
+        badges: ["CMO Approval"],
+        keywords: "ear ears ear infection otic otitis ear odor ear smell ear discharge head shaking scratching ears ear pain hematoma"
+      },
+      {
+        title: "Red Eye",
+        href: "red-eye.html",
+        icon: "👁️",
+        category: "👁 Skin / Eyes / Ears",
+        description: "Ophthalmic workflow for red, painful, swollen, cloudy, or abnormal eyes.",
+        badges: ["CMO Approval"],
+        keywords: "red eye eye redness red eyes conjunctivitis eye discharge squinting painful eye cloudy eye eye injury"
+      },
+      {
+        title: "Lameness",
+        href: "lameness.html",
+        icon: "🐾",
+        category: "🩹 Musculoskeletal / Soft Tissue",
+        description: "Workflow for limping, pain, fracture, dislocation, trauma, paresis, or paralysis.",
+        badges: ["X-rays"],
+        keywords: "lameness limping limp won't bear weight broken bone fracture dislocation sprain injury leg pain vehicular trauma paresis paralysis"
+      },
+      {
+        title: "Growth/Lump",
+        href: "growth-lump.html",
+        icon: "🔎",
+        category: "🩹 Musculoskeletal / Soft Tissue",
+        description: "Workflow for masses, swellings, nodules, tumors, bumps, or new growths.",
+        badges: ["3-view X-rays", "CMO Approval"],
+        keywords: "growth lump mass tumor tumour skin mass skin growth swelling bump nodule tumor suspect cancer"
+      },
+      {
+        title: "Elevated ALP",
+        href: "elevated-alp.html",
+        icon: "📈",
+        category: "🧬 Endocrine / Metabolic",
+        description: "Diagnostic workflow for elevated alkaline phosphatase, high ALP, or liver enzyme concerns.",
+        badges: ["CMO Approval"],
+        keywords: "alp alkaline phosphatase elevated alp high alp alk phos liver enzymes high liver values cholestasis"
+      },
+      {
+        title: "Suspected Canine Hypothyroidism",
+        href: "suspected-canine-hypothyroidism.html",
+        icon: "🐶",
+        category: "🧬 Endocrine / Metabolic",
+        description: "Endocrine workflow for suspected low thyroid disease in dogs.",
+        badges: ["CMO Approval"],
+        keywords: "hypothyroidism hypothyroid low thyroid thyroid weight gain hair loss alopecia lethargy dog thyroid canine hypothyroidism"
+      },
+      {
+        title: "Suspected Feline Hyperthyroidism",
+        href: "suspected-feline-hyperthyroidism.html",
+        icon: "🐱",
+        category: "🧬 Endocrine / Metabolic",
+        description: "Endocrine workflow for suspected high thyroid disease in cats.",
+        badges: ["CMO Approval"],
+        keywords: "hyperthyroidism hyperthyroid high thyroid cat thyroid feline hyperthyroidism weight loss ravenous appetite thyroid disease"
+      },
+      {
+        title: "Fever of Unknown Origin",
+        href: "fever-unknown-origin.html",
+        icon: "🌡️",
+        category: "🌡 Systemic Disease",
+        description: "Diagnostic pathway for persistent fever, high temperature, or unexplained fever.",
+        badges: ["CMO Approval"],
+        keywords: "fever fuo fever unknown origin high temperature unknown fever persistent fever"
+      },
+      {
+        title: "Malaise",
+        href: "malaise.html",
+        icon: "😔",
+        category: "🌡 Systemic Disease",
+        description: "General diagnostic pathway for lethargy, weakness, fatigue, or not-doing-well Pets.",
+        badges: ["CMO Approval"],
+        keywords: "malaise lethargy tired weak not acting normal quiet depressed not feeling well fatigue"
+      },
+      {
+        title: "Ehrlichiosis Infections",
+        href: "ehrlichiosis-e-canis.html",
+        icon: "🦠",
+        category: "🌡 Systemic Disease",
+        description: "Workflow for suspected or confirmed E. canis, tick disease, or vector-borne concern.",
+        badges: ["CMO Approval"],
+        keywords: "ehrlichiosis ehrlichia e canis tick disease tick bite tick fever ehrlichia canis vector borne disease"
+      }
+    ];
+
+    const categoryOrder = [
+      "🚨 Emergency Presentations",
+      "🍽 Gastrointestinal",
+      "🫁 Respiratory",
+      "💧 Urinary",
+      "👁 Skin / Eyes / Ears",
+      "🩹 Musculoskeletal / Soft Tissue",
+      "🧬 Endocrine / Metabolic",
+      "🌡 Systemic Disease"
+    ];
+
+    let wizardState = {};
 
     function normalizeText(text) {
       return text
@@ -603,40 +796,261 @@
         .trim();
     }
 
-    function filterWorkflows() {
-      const input = normalizeText(document.getElementById("workflowSearch").value);
-      const cards = document.querySelectorAll(".workflow-card");
-      const categories = document.querySelectorAll(".workflow-category");
-      const noResults = document.getElementById("noResults");
-      let totalVisible = 0;
+    function createCard(workflow) {
+      const badgeHtml = workflow.badges.map(badge => {
+        let className = "badge";
+        if (badge.includes("🚨")) className += " emergency";
+        if (badge.includes("CBC") || badge.includes("X-rays") || badge.includes("Profile") || badge.includes("Parvo")) className += " approved";
+        if (badge.includes("CMO")) className += " cmo";
 
-      cards.forEach(card => {
-        const href = card.getAttribute("href");
-        const cardText = normalizeText(card.innerText);
-        const keywords = normalizeText(workflowIndex[href] || "");
-        const searchableText = cardText + " " + keywords;
+        return `<span class="${className}">${badge}</span>`;
+      }).join("");
 
-        const isVisible = !input || searchableText.includes(input);
-        card.style.display = isVisible ? "flex" : "none";
+      const card = document.createElement("a");
+      card.href = workflow.href;
+      card.className = "workflow-card";
+      card.dataset.href = workflow.href;
+      card.dataset.search = `${workflow.title} ${workflow.description} ${workflow.keywords}`;
+      card.onclick = () => saveRecentlyUsed(workflow.href);
 
-        if (isVisible) totalVisible++;
-      });
+      card.innerHTML = `
+        <div>
+          <div class="card-top">
+            <div class="icon">${workflow.icon}</div>
+            <h3>${workflow.title}</h3>
+          </div>
+          <p>${workflow.description}</p>
+          <div class="badge-row">${badgeHtml}</div>
+        </div>
+        <div class="open-link">Open workflow →</div>
+      `;
 
-      categories.forEach(category => {
-        const visibleCards = category.querySelectorAll(".workflow-card[style*='display: flex'], .workflow-card:not([style])");
-        let hasVisible = false;
-
-        category.querySelectorAll(".workflow-card").forEach(card => {
-          if (card.style.display !== "none") {
-            hasVisible = true;
-          }
-        });
-
-        category.style.display = hasVisible ? "block" : "none";
-      });
-
-      noResults.style.display = totalVisible === 0 ? "block" : "none";
+      return card;
     }
+
+    function renderCategories() {
+      const container = document.getElementById("categoryContainer");
+      container.innerHTML = "";
+
+      categoryOrder.forEach(category => {
+        const section = document.createElement("section");
+        section.className = "workflow-category";
+        section.dataset.category = category;
+
+        const h2 = document.createElement("h2");
+        h2.textContent = category;
+
+        const grid = document.createElement("div");
+        grid.className = "workflow-grid";
+
+        workflows
+          .filter(w => w.category === category || (w.alsoIn && w.alsoIn.includes(category)))
+          .forEach(w => grid.appendChild(createCard(w)));
+
+        section.appendChild(h2);
+        section.appendChild(grid);
+        container.appendChild(section);
+      });
+    }
+
+    function scoreWorkflow(workflow, input) {
+      const query = normalizeText(input);
+      if (!query) return 0;
+
+      const title = normalizeText(workflow.title);
+      const text = normalizeText(`${workflow.title} ${workflow.description} ${workflow.keywords}`);
+      const terms = query.split(" ").filter(Boolean);
+
+      let score = 0;
+
+      if (title.includes(query)) score += 100;
+      if (text.includes(query)) score += 60;
+
+      terms.forEach(term => {
+        if (title.includes(term)) score += 20;
+        if (text.includes(term)) score += 8;
+      });
+
+      return score;
+    }
+
+    function filterWorkflows() {
+      const input = document.getElementById("workflowSearch").value;
+      const normalizedInput = normalizeText(input);
+      const categoryContainer = document.getElementById("categoryContainer");
+      const searchResults = document.getElementById("searchResults");
+      const searchGrid = document.getElementById("searchGrid");
+      const noResults = document.getElementById("noResults");
+
+      searchGrid.innerHTML = "";
+
+      if (!normalizedInput) {
+        categoryContainer.classList.remove("hidden");
+        searchResults.classList.add("hidden");
+        noResults.style.display = "none";
+        return;
+      }
+
+      const matches = workflows
+        .map(workflow => ({ workflow, score: scoreWorkflow(workflow, normalizedInput) }))
+        .filter(item => item.score > 0)
+        .sort((a, b) => b.score - a.score);
+
+      categoryContainer.classList.add("hidden");
+
+      if (matches.length === 0) {
+        searchResults.classList.add("hidden");
+        noResults.style.display = "block";
+        return;
+      }
+
+      searchResults.classList.remove("hidden");
+      noResults.style.display = "none";
+
+      matches.forEach(item => searchGrid.appendChild(createCard(item.workflow)));
+    }
+
+    function saveRecentlyUsed(href) {
+      let recent = JSON.parse(localStorage.getItem("hannahRecentWorkflows") || "[]");
+      recent = recent.filter(item => item !== href);
+      recent.unshift(href);
+      recent = recent.slice(0, 5);
+      localStorage.setItem("hannahRecentWorkflows", JSON.stringify(recent));
+    }
+
+    function renderRecentlyUsed() {
+      const recentSection = document.getElementById("recentSection");
+      const recentGrid = document.getElementById("recentGrid");
+      const recent = JSON.parse(localStorage.getItem("hannahRecentWorkflows") || "[]");
+
+      recentGrid.innerHTML = "";
+
+      const recentWorkflows = recent
+        .map(href => workflows.find(w => w.href === href))
+        .filter(Boolean);
+
+      if (recentWorkflows.length === 0) {
+        recentSection.classList.add("hidden");
+        return;
+      }
+
+      recentSection.classList.remove("hidden");
+      recentWorkflows.forEach(w => recentGrid.appendChild(createCard(w)));
+    }
+
+    function openWizard() {
+      wizardState = {};
+      document.getElementById("wizardModal").style.display = "flex";
+      document.getElementById("wizardModal").setAttribute("aria-hidden", "false");
+      restartWizard();
+    }
+
+    function closeWizard() {
+      document.getElementById("wizardModal").style.display = "none";
+      document.getElementById("wizardModal").setAttribute("aria-hidden", "true");
+    }
+
+    function showWizardStep(id) {
+      document.querySelectorAll(".wizard-step").forEach(step => step.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+    }
+
+    function restartWizard() {
+      wizardState = {};
+      showWizardStep("stepComplaint");
+      renderComplaintOptions();
+    }
+
+    function renderComplaintOptions() {
+      const options = [
+        ["vomiting", "Vomiting"],
+        ["diarrhea", "Diarrhea"],
+        ["not eating anorexia", "Not eating"],
+        ["respiratory distress difficulty breathing", "Difficulty breathing"],
+        ["coughing", "Coughing"],
+        ["lameness limping", "Limping / mobility concern"],
+        ["polyuria polydipsia drinking more urinating more", "Increased thirst / urination"],
+        ["red eye eye problem", "Eye problem"],
+        ["otic disorder ear infection", "Ear problem"],
+        ["pruritis itchy skin", "Skin problem / itching"],
+        ["growth lump mass tumor", "Lump / mass"],
+        ["seizure seizures", "Seizure-like episode"],
+        ["dysuria blocked cat cannot urinate", "Urinary straining / can’t pee"],
+        ["malaise lethargy not acting normal", "Not acting right / lethargic"]
+      ];
+
+      const box = document.getElementById("complaintOptions");
+      box.innerHTML = "";
+
+      options.forEach(([value, label]) => {
+        const btn = document.createElement("button");
+        btn.textContent = label;
+        btn.onclick = () => {
+          wizardState.complaint = value;
+          showWizardStep("stepDuration");
+        };
+        box.appendChild(btn);
+      });
+    }
+
+    function selectDuration(value) {
+      wizardState.duration = value;
+      showWizardStep("stepAge");
+    }
+
+    function selectAge(value) {
+      wizardState.age = value;
+      showWizardStep("stepFlags");
+    }
+
+    function finishWizard(flagValue) {
+      let query = `${wizardState.complaint || ""} ${wizardState.duration || ""} ${wizardState.age || ""}`;
+
+      if (flagValue !== "none") {
+        query += ` ${flagValue}`;
+      }
+
+      const matches = workflows
+        .map(workflow => ({ workflow, score: scoreWorkflow(workflow, query) }))
+        .filter(item => item.score > 0)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 3);
+
+      const resultBox = document.getElementById("wizardResult");
+
+      if (matches.length === 0) {
+        resultBox.innerHTML = `
+          <h3>No strong match found</h3>
+          <p>Please use the search bar or submit a Diagnostic &amp; Requisition request.</p>
+          <p><a class="primary-btn" href="https://form.jotform.com/261380809696065" target="_blank">Open Diagnostic Request Form</a></p>
+        `;
+      } else {
+        const top = matches[0].workflow;
+        resultBox.innerHTML = `
+          <h3>${top.icon} ${top.title}</h3>
+          <p>${top.description}</p>
+          <div class="badge-row">
+            ${top.badges.map(b => `<span class="badge ${b.includes("CMO") ? "cmo" : "approved"}">${b}</span>`).join("")}
+          </div>
+          <p style="margin-top:18px;">
+            <a class="primary-btn" href="${top.href}" onclick="saveRecentlyUsed('${top.href}')">Open Recommended Workflow</a>
+            <a class="secondary-btn" href="https://form.jotform.com/261380809696065" target="_blank">Diagnostic Request Form</a>
+          </p>
+          <p><strong>Other possible matches:</strong> ${matches.map(m => m.workflow.title).join(", ")}</p>
+        `;
+      }
+
+      showWizardStep("stepResult");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderCategories();
+      renderRecentlyUsed();
+    });
+
+    document.getElementById("wizardModal").addEventListener("click", function(event) {
+      if (event.target === this) closeWizard();
+    });
   </script>
 
 </body>
