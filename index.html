@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hannah Diagnostic Workflow Hub</title>
+  <title>Hannah Clinical Decision Support Center</title>
 
   <style>
     :root {
@@ -18,9 +18,7 @@
       --shadow: 0 14px 35px rgba(31, 59, 84, 0.14);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -105,30 +103,47 @@
       outline: none;
     }
 
+    .quick-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin: 24px auto 0;
+      max-width: 900px;
+    }
+
+    .quick-actions a {
+      text-decoration: none;
+      background: var(--white);
+      color: var(--hannah-navy);
+      border: 1px solid rgba(31, 59, 84, 0.12);
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-weight: 800;
+      box-shadow: 0 8px 22px rgba(31, 59, 84, 0.1);
+    }
+
+    .quick-actions a:hover {
+      border-color: var(--hannah-blue);
+      color: var(--hannah-blue);
+    }
+
     main {
       padding: 40px 6% 70px;
       max-width: 1440px;
       margin: 0 auto;
     }
 
-    .section-title {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 20px;
-      margin-bottom: 24px;
+    .workflow-category {
+      margin-bottom: 52px;
     }
 
-    .section-title h2 {
+    .workflow-category h2 {
       color: var(--hannah-navy);
-      margin: 0;
-      font-size: 30px;
-    }
-
-    .section-title p {
-      color: var(--muted);
-      margin: 0;
-      font-size: 15px;
+      font-size: 28px;
+      margin: 0 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 3px solid var(--hannah-blue);
     }
 
     .workflow-grid {
@@ -198,6 +213,17 @@
       font-size: 14px;
     }
 
+    .no-results {
+      display: none;
+      text-align: center;
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 28px;
+      color: var(--muted);
+      box-shadow: var(--shadow);
+      margin-top: 20px;
+    }
+
     footer {
       background: var(--hannah-navy);
       color: var(--white);
@@ -219,30 +245,6 @@
       .hero {
         padding-top: 48px;
       }
-
-      .section-title {
-        display: block;
-      }
-
-      .section-title p {
-        margin-top: 8px;
-      }
-
-      .workflow-category {
-        margin-bottom: 48px;
-      }
-      
-      .workflow-category h2 {
-        color: var(--hannah-navy);
-        font-size: 28px;
-        margin: 0 0 20px;
-        padding-bottom: 10px;
-        border-bottom: 3px solid var(--hannah-blue);
-      }
-      
-      .workflow-category .workflow-grid {
-        margin-bottom: 12px;
-      }
     }
   </style>
 </head>
@@ -258,9 +260,8 @@
     <div class="eyebrow">Hannah Pet Hospital</div>
     <h1>PetNurse Diagnostic Workflow Center</h1>
     <p>
-      Select a condition below to open the recommended diagnostic workflow.
-      These tools are designed to help Hannah team members follow a consistent,
-      protocol-aligned process for each Pet presentation.
+      Search by presenting complaint, symptom, diagnosis, or body system to find the appropriate
+      protocol-aligned diagnostic workflow.
     </p>
 
     <div class="search-wrap">
@@ -271,317 +272,284 @@
         onkeyup="filterWorkflows()"
       />
     </div>
+
+    <div class="quick-actions">
+      <a href="https://form.jotform.com/261380809696065" target="_blank">📋 Diagnostic &amp; Requisition Form</a>
+      <a href="respiratory-distress.html">🚨 Respiratory Distress</a>
+      <a href="dysuria-incontinence.html">🚽 Blocked Cat / Can’t Pee</a>
+    </div>
   </section>
 
   <main>
-          <section class="workflow-category">
-        <h2>🚨 Emergency Presentations</h2>
-        <div class="workflow-grid">
-          <!-- Respiratory Distress, Anemia, Acute Vomiting, Seizures, Dysuria/Incontinence -->
-        </div>
-      </section>
-      
-      <section class="workflow-category">
-        <h2>🍽 Gastrointestinal</h2>
-        <div class="workflow-grid">
-          <!-- Acute Vomiting, Diarrhea, Anorexia, Ascites -->
-        </div>
-      </section>
-      
-      <section class="workflow-category">
-        <h2>🫁 Respiratory</h2>
-        <div class="workflow-grid">
-          <!-- Respiratory Distress, Coughing, Sneezing/Nasal Discharge -->
-        </div>
-      </section>
-      
-      <section class="workflow-category">
-        <h2>💧 Urinary</h2>
-        <div class="workflow-grid">
-          <!-- Dysuria/Incontinence, Polyuria/Polydipsia, Urine Protein/Creatinine Ratio -->
-        </div>
-      </section>
-      
-      <section class="workflow-category">
-        <h2>👁 Skin / Eyes / Ears</h2>
-        <div class="workflow-grid">
-          <!-- Pruritis, Otic Disorder, Red Eye -->
-        </div>
-      </section>
-      
-      <section class="workflow-category">
-        <h2>🩹 Musculoskeletal / Soft Tissue</h2>
-        <div class="workflow-grid">
-          <!-- Lameness, Growth/Lump -->
-        </div>
-      </section>
-      
-      <section class="workflow-category">
-        <h2>🧬 Endocrine / Metabolic</h2>
-        <div class="workflow-grid">
-          <!-- Elevated ALP, Suspected Canine Hypothyroidism, Suspected Feline Hyperthyroidism -->
-        </div>
-      </section>
-      
-      <section class="workflow-category">
-        <h2>🌡 Systemic Disease</h2>
-        <div class="workflow-grid">
-          <!-- Fever of Unknown Origin, Malaise, Ehrlichiosis -->
-        </div>
-      </section>
-      <a href="anemia.html" class="workflow-card">
-        <div>
-          <div class="card-top">
-            <div class="icon">🩸</div>
-            <h3>Anemia</h3>
-          </div>
-          <p>Diagnostic pathway for suspected or confirmed anemia.</p>
-        </div>
-        <div class="open-link">Open workflow →</div>
-      </a>
 
-      <a href="acute-vomiting.html" class="workflow-card">
-        <div>
-          <div class="card-top">
-            <div class="icon">🤢</div>
-            <h3>Acute Vomiting</h3>
-          </div>
-          <p>Initial triage and diagnostic process for acute vomiting.</p>
-        </div>
-        <div class="open-link">Open workflow →</div>
-      </a>
+    <section class="workflow-category">
+      <h2>🚨 Emergency Presentations</h2>
+      <div class="workflow-grid">
 
-      <a href="anorexia.html" class="workflow-card">
-        <div>
-          <div class="card-top">
-            <div class="icon">🍽️</div>
-            <h3>Anorexia</h3>
+        <a href="respiratory-distress.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">🫁</div><h3>Respiratory Distress</h3></div>
+            <p>Emergency workflow for difficulty breathing, labored breathing, cyanosis, or collapse.</p>
           </div>
-          <p>Workflow for Pets presenting with decreased or absent appetite.</p>
-        </div>
-        <div class="open-link">Open workflow →</div>
-      </a>
+          <div class="open-link">Open workflow →</div>
+        </a>
 
-      <a href="ascites.html" class="workflow-card">
-        <div>
-          <div class="card-top">
-            <div class="icon">💧</div>
-            <h3>Ascites</h3>
+        <a href="anemia.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">🩸</div><h3>Anemia</h3></div>
+            <p>Workflow for pale mucous membranes, suspected anemia, bleeding, toxin, or pyometra concern.</p>
           </div>
-          <p>Diagnostic approach for abdominal fluid or distension.</p>
-        </div>
-        <div class="open-link">Open workflow →</div>
-      </a>
+          <div class="open-link">Open workflow →</div>
+        </a>
 
-      <a href="coughing.html" class="workflow-card">
-        <div>
-          <div class="card-top">
-            <div class="icon">🫁</div>
-            <h3>Coughing</h3>
+        <a href="acute-vomiting.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">🤢</div><h3>Acute Vomiting</h3></div>
+            <p>Workflow for productive vomiting, non-productive vomiting, or suspected foreign body.</p>
           </div>
-          <p>Respiratory workflow for coughing or suspected airway disease.</p>
-        </div>
-        <div class="open-link">Open workflow →</div>
-      </a>
+          <div class="open-link">Open workflow →</div>
+        </a>
 
-      <a href="diarrhea.html" class="workflow-card">
-        <div>
-          <div class="card-top">
-            <div class="icon">💩</div>
-            <h3>Diarrhea</h3>
+        <a href="seizures.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">⚡</div><h3>Seizures</h3></div>
+            <p>Workflow for seizure activity, seizure-like episodes, toxin concern, or neurologic events.</p>
           </div>
-          <p>Step-by-step process for acute or ongoing diarrhea cases.</p>
-        </div>
-        <div class="open-link">Open workflow →</div>
-      </a>
+          <div class="open-link">Open workflow →</div>
+        </a>
 
-      <a href="dysuria-incontinence.html" class="workflow-card">
-        <div>
-          <div class="card-top">
-            <div class="icon">🚽</div>
-            <h3>Dysuria/Incontinence</h3>
+        <a href="dysuria-incontinence.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">🚽</div><h3>Dysuria/Incontinence</h3></div>
+            <p>Workflow for straining to urinate, blocked cat, no urination, accidents, or abnormal urination.</p>
           </div>
-          <p>Urinary workflow for straining, accidents, or abnormal urination.</p>
-        </div>
-        <div class="open-link">Open workflow →</div>
-      </a>
+          <div class="open-link">Open workflow →</div>
+        </a>
 
-      <a href="ehrlichiosis-e-canis.html" class="workflow-card">
-        <div>
-          <div class="card-top">
-            <div class="icon">🦠</div>
-            <h3>Ehrlichiosis Infections</h3>
-          </div>
-          <p>Workflow for suspected or confirmed E. canis infection.</p>
-        </div>
-        <div class="open-link">Open workflow →</div>
-      </a>
+      </div>
+    </section>
 
-      <a href="elevated-alkaline-phosphatase.html" class="workflow-card">
-        <div>
-          <div class="card-top">
-            <div class="icon">📈</div>
-            <h3>Elevated ALP</h3>
-          </div>
-          <p>Diagnostic workflow for elevated alkaline phosphatase values.</p>
-        </div>
-        <div class="open-link">Open workflow →</div>
-      </a>
+    <section class="workflow-category">
+      <h2>🍽 Gastrointestinal</h2>
+      <div class="workflow-grid">
 
-      <a href="fever-unknown-origin.html" class="workflow-card">
-        <div>
-          <div class="card-top">
-            <div class="icon">🌡️</div>
-            <h3>Fever of Unknown Origin</h3>
+        <a href="acute-vomiting.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">🤢</div><h3>Acute Vomiting</h3></div>
+            <p>Initial triage and diagnostic process for acute vomiting.</p>
           </div>
-          <p>Diagnostic pathway for persistent or unexplained fever.</p>
-        </div>
-        <div class="open-link">Open workflow →</div>
-      </a>
+          <div class="open-link">Open workflow →</div>
+        </a>
 
-      <a href="growth-lump.html" class="workflow-card">
-        <div>
-          <div class="card-top">
-            <div class="icon">🔎</div>
-            <h3>Growth/Lump</h3>
+        <a href="diarrhea.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">💩</div><h3>Diarrhea</h3></div>
+            <p>Workflow for diarrhea, puppy diarrhea, loose stool, or straining to defecate.</p>
           </div>
-          <p>Workflow for masses, swellings, nodules, or new growths.</p>
-        </div>
-        <div class="open-link">Open workflow →</div>
-      </a>
+          <div class="open-link">Open workflow →</div>
+        </a>
 
-      <a href="lameness.html" class="workflow-card">
-        <div>
-          <div class="card-top">
-            <div class="icon">🐾</div>
-            <h3>Lameness</h3>
+        <a href="anorexia.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">🍽️</div><h3>Anorexia</h3></div>
+            <p>Workflow for Pets who are not eating, off food, or have reduced appetite.</p>
           </div>
-          <p>Orthopedic and pain-based workflow for limping or mobility changes.</p>
-        </div>
-        <div class="open-link">Open workflow →</div>
-      </a>
+          <div class="open-link">Open workflow →</div>
+        </a>
 
-      <a href="malaise.html" class="workflow-card">
-        <div>
-          <div class="card-top">
-            <div class="icon">😔</div>
-            <h3>Malaise</h3>
+        <a href="ascites.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">💧</div><h3>Ascites</h3></div>
+            <p>Diagnostic approach for abdominal fluid, swollen abdomen, or distension.</p>
           </div>
-          <p>General diagnostic pathway for lethargy or not-doing-well Pets.</p>
-        </div>
-        <div class="open-link">Open workflow →</div>
-      </a>
+          <div class="open-link">Open workflow →</div>
+        </a>
 
-      <a href="otic-disorder.html" class="workflow-card">
-        <div>
-          <div class="card-top">
-            <div class="icon">👂</div>
-            <h3>Otic Disorder</h3>
-          </div>
-          <p>Workflow for ear infections, head shaking, discharge, or odor.</p>
-        </div>
-        <div class="open-link">Open workflow →</div>
-      </a>
+      </div>
+    </section>
 
-      <a href="polyuria-polydipsia.html" class="workflow-card">
-        <div>
-          <div class="card-top">
-            <div class="icon">💧</div>
-            <h3>Polyuria/Polydipsia</h3>
-          </div>
-          <p>Workflow for increased urination and/or increased thirst.</p>
-        </div>
-        <div class="open-link">Open workflow →</div>
-      </a>
+    <section class="workflow-category">
+      <h2>🫁 Respiratory</h2>
+      <div class="workflow-grid">
 
-      <a href="pruritis.html" class="workflow-card">
-        <div>
-          <div class="card-top">
-            <div class="icon">🐕</div>
-            <h3>Pruritis</h3>
+        <a href="respiratory-distress.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">🫁</div><h3>Respiratory Distress</h3></div>
+            <p>Emergency workflow for difficulty breathing or labored breathing.</p>
           </div>
-          <p>Itchy skin workflow for allergic, infectious, or parasitic concerns.</p>
-        </div>
-        <div class="open-link">Open workflow →</div>
-      </a>
+          <div class="open-link">Open workflow →</div>
+        </a>
 
-      <a href="red-eye.html" class="workflow-card">
-        <div>
-          <div class="card-top">
-            <div class="icon">👁️</div>
-            <h3>Red Eye</h3>
+        <a href="coughing.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">🫁</div><h3>Coughing</h3></div>
+            <p>Respiratory workflow for coughing, hacking, gagging, or suspected airway disease.</p>
           </div>
-          <p>Ophthalmic workflow for red, painful, swollen, or abnormal eyes.</p>
-        </div>
-        <div class="open-link">Open workflow →</div>
-      </a>
+          <div class="open-link">Open workflow →</div>
+        </a>
 
-      <a href="respiratory-distress.html" class="workflow-card">
-        <div>
-          <div class="card-top">
-            <div class="icon">🫁</div>
-            <h3>Respiratory Distress</h3>
+        <a href="sneezing-nasal-discharge.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">🤧</div><h3>Sneezing or Nasal Discharge</h3></div>
+            <p>Upper respiratory workflow for sneezing, nasal discharge, runny nose, or congestion.</p>
           </div>
-          <p>Emergency workflow for difficulty breathing or labored breathing.</p>
-        </div>
-        <div class="open-link">Open workflow →</div>
-      </a>
+          <div class="open-link">Open workflow →</div>
+        </a>
 
-      <a href="seizures.html" class="workflow-card">
-        <div>
-          <div class="card-top">
-            <div class="icon">⚡</div>
-            <h3>Seizures</h3>
-          </div>
-          <p>Neurologic workflow for seizure activity or seizure-like episodes.</p>
-        </div>
-        <div class="open-link">Open workflow →</div>
-      </a>
+      </div>
+    </section>
 
-      <a href="sneezing-nasal-discharge.html" class="workflow-card">
-        <div>
-          <div class="card-top">
-            <div class="icon">🤧</div>
-            <h3>Sneezing or Nasal Discharge</h3>
-          </div>
-          <p>Upper respiratory workflow for sneezing, discharge, or congestion.</p>
-        </div>
-        <div class="open-link">Open workflow →</div>
-      </a>
+    <section class="workflow-category">
+      <h2>💧 Urinary</h2>
+      <div class="workflow-grid">
 
-      <a href="suspected-canine-hypothyroidism.html" class="workflow-card">
-        <div>
-          <div class="card-top">
-            <div class="icon">🐶</div>
-            <h3>Suspected Canine Hypothyroidism</h3>
+        <a href="dysuria-incontinence.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">🚽</div><h3>Dysuria/Incontinence</h3></div>
+            <p>Urinary workflow for straining, accidents, leakage, or abnormal urination.</p>
           </div>
-          <p>Endocrine workflow for suspected thyroid disease in dogs.</p>
-        </div>
-        <div class="open-link">Open workflow →</div>
-      </a>
+          <div class="open-link">Open workflow →</div>
+        </a>
 
-      <a href="suspected-feline-hyperthyroidism.html" class="workflow-card">
-        <div>
-          <div class="card-top">
-            <div class="icon">🐱</div>
-            <h3>Suspected Feline Hyperthyroidism</h3>
+        <a href="polyuria-polydipsia.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">💧</div><h3>Polyuria/Polydipsia</h3></div>
+            <p>Workflow for increased urination, increased thirst, or drinking more.</p>
           </div>
-          <p>Endocrine workflow for suspected thyroid disease in cats.</p>
-        </div>
-        <div class="open-link">Open workflow →</div>
-      </a>
-      <a href="urine-protein-creatinine-ratio.html" class="workflow-card">
-        <div>
-          <div class="card-top">
-            <div class="icon">🧪</div>
-            <h3>Urine Protein/Creatinine Ratio</h3>
-          </div>
-          <p>Workflow for evaluating proteinuria and UPC testing.</p>
-        </div>
-        <div class="open-link">Open workflow →</div>
-      </a>
+          <div class="open-link">Open workflow →</div>
+        </a>
 
+        <a href="urine-protein-creatinine-ratio.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">🧪</div><h3>Urine Protein/Creatinine Ratio</h3></div>
+            <p>Workflow for proteinuria, UPC testing, kidney disease, or renal concerns.</p>
+          </div>
+          <div class="open-link">Open workflow →</div>
+        </a>
+
+      </div>
+    </section>
+
+    <section class="workflow-category">
+      <h2>👁 Skin / Eyes / Ears</h2>
+      <div class="workflow-grid">
+
+        <a href="pruritis.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">🐕</div><h3>Pruritis</h3></div>
+            <p>Itchy skin workflow for scratching, licking, allergies, rash, or hair loss.</p>
+          </div>
+          <div class="open-link">Open workflow →</div>
+        </a>
+
+        <a href="otic-disorder.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">👂</div><h3>Otic Disorder</h3></div>
+            <p>Workflow for ear infection, head shaking, discharge, odor, or ear pain.</p>
+          </div>
+          <div class="open-link">Open workflow →</div>
+        </a>
+
+        <a href="red-eye.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">👁️</div><h3>Red Eye</h3></div>
+            <p>Ophthalmic workflow for red, painful, swollen, cloudy, or abnormal eyes.</p>
+          </div>
+          <div class="open-link">Open workflow →</div>
+        </a>
+
+      </div>
+    </section>
+
+    <section class="workflow-category">
+      <h2>🩹 Musculoskeletal / Soft Tissue</h2>
+      <div class="workflow-grid">
+
+        <a href="lameness.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">🐾</div><h3>Lameness</h3></div>
+            <p>Workflow for limping, pain, fracture, dislocation, trauma, paresis, or paralysis.</p>
+          </div>
+          <div class="open-link">Open workflow →</div>
+        </a>
+
+        <a href="growth-lump.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">🔎</div><h3>Growth/Lump</h3></div>
+            <p>Workflow for masses, swellings, nodules, tumors, bumps, or new growths.</p>
+          </div>
+          <div class="open-link">Open workflow →</div>
+        </a>
+
+      </div>
+    </section>
+
+    <section class="workflow-category">
+      <h2>🧬 Endocrine / Metabolic</h2>
+      <div class="workflow-grid">
+
+        <a href="elevated-alp.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">📈</div><h3>Elevated ALP</h3></div>
+            <p>Diagnostic workflow for elevated alkaline phosphatase, high ALP, or liver enzyme concerns.</p>
+          </div>
+          <div class="open-link">Open workflow →</div>
+        </a>
+
+        <a href="suspected-canine-hypothyroidism.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">🐶</div><h3>Suspected Canine Hypothyroidism</h3></div>
+            <p>Endocrine workflow for suspected low thyroid disease in dogs.</p>
+          </div>
+          <div class="open-link">Open workflow →</div>
+        </a>
+
+        <a href="suspected-feline-hyperthyroidism.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">🐱</div><h3>Suspected Feline Hyperthyroidism</h3></div>
+            <p>Endocrine workflow for suspected high thyroid disease in cats.</p>
+          </div>
+          <div class="open-link">Open workflow →</div>
+        </a>
+
+      </div>
+    </section>
+
+    <section class="workflow-category">
+      <h2>🌡 Systemic Disease</h2>
+      <div class="workflow-grid">
+
+        <a href="fever-unknown-origin.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">🌡️</div><h3>Fever of Unknown Origin</h3></div>
+            <p>Diagnostic pathway for persistent fever, high temperature, or unexplained fever.</p>
+          </div>
+          <div class="open-link">Open workflow →</div>
+        </a>
+
+        <a href="malaise.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">😔</div><h3>Malaise</h3></div>
+            <p>General diagnostic pathway for lethargy, weakness, fatigue, or not-doing-well Pets.</p>
+          </div>
+          <div class="open-link">Open workflow →</div>
+        </a>
+
+        <a href="ehrlichiosis-e-canis.html" class="workflow-card">
+          <div>
+            <div class="card-top"><div class="icon">🦠</div><h3>Ehrlichiosis Infections</h3></div>
+            <p>Workflow for suspected or confirmed E. canis, tick disease, or vector-borne concern.</p>
+          </div>
+          <div class="open-link">Open workflow →</div>
+        </a>
+
+      </div>
+    </section>
+
+    <div id="noResults" class="no-results">
+      No workflows matched your search. Try a symptom like “pale gums,” “can’t pee,” “vomiting,” “itchy,” or “difficulty breathing.”
     </div>
+
   </main>
 
   <footer>
@@ -598,7 +566,7 @@
       "diarrhea.html": "diarrhea diarrhoea loose stool soft stool bloody diarrhea bloody stool melena hematochezia puppy diarrhea no defecation straining to defecate constipation",
       "dysuria-incontinence.html": "dysuria incontinence urinary accident urinary leakage dribbling urine blood in urine hematuria can't pee cannot urinate not urinating no urination blocked cat urinary obstruction straining to urinate painful urination",
       "ehrlichiosis-e-canis.html": "ehrlichiosis ehrlichia e canis tick disease tick bite tick fever ehrlichia canis vector borne disease",
-      "elevated-alkaline-phosphatase.html": "alp alkaline phosphatase elevated alp high alp alk phos liver enzymes high liver values cholestasis",
+      "elevated-alp.html": "alp alkaline phosphatase elevated alp high alp alk phos liver enzymes high liver values cholestasis",
       "fever-unknown-origin.html": "fever fuo fever unknown origin high temperature unknown fever persistent fever",
       "growth-lump.html": "growth lump mass tumor tumour skin mass skin growth swelling bump nodule tumor suspect cancer",
       "lameness.html": "lameness limping limp won't bear weight broken bone fracture dislocation sprain injury leg pain vehicular trauma paresis paralysis",
@@ -614,33 +582,51 @@
       "suspected-feline-hyperthyroidism.html": "hyperthyroidism hyperthyroid high thyroid cat thyroid feline hyperthyroidism weight loss ravenous appetite thyroid disease",
       "urine-protein-creatinine-ratio.html": "urine protein proteinuria upc urine protein creatinine ratio protein in urine kidney disease renal disease ckd albuminuria"
     };
-  
+
     function normalizeText(text) {
       return text
         .toLowerCase()
         .replace(/mucus/g, "mucous")
         .replace(/can't/g, "cannot")
+        .replace(/wont/g, "will not")
         .replace(/[^a-z0-9\s]/g, " ")
         .replace(/\s+/g, " ")
         .trim();
     }
-  
+
     function filterWorkflows() {
       const input = normalizeText(document.getElementById("workflowSearch").value);
       const cards = document.querySelectorAll(".workflow-card");
-  
+      const categories = document.querySelectorAll(".workflow-category");
+      const noResults = document.getElementById("noResults");
+      let totalVisible = 0;
+
       cards.forEach(card => {
         const href = card.getAttribute("href");
         const cardText = normalizeText(card.innerText);
         const keywords = normalizeText(workflowIndex[href] || "");
         const searchableText = cardText + " " + keywords;
-  
-        if (!input || searchableText.includes(input)) {
-          card.style.display = "flex";
-        } else {
-          card.style.display = "none";
-        }
+
+        const isVisible = !input || searchableText.includes(input);
+        card.style.display = isVisible ? "flex" : "none";
+
+        if (isVisible) totalVisible++;
       });
+
+      categories.forEach(category => {
+        const visibleCards = category.querySelectorAll(".workflow-card[style*='display: flex'], .workflow-card:not([style])");
+        let hasVisible = false;
+
+        category.querySelectorAll(".workflow-card").forEach(card => {
+          if (card.style.display !== "none") {
+            hasVisible = true;
+          }
+        });
+
+        category.style.display = hasVisible ? "block" : "none";
+      });
+
+      noResults.style.display = totalVisible === 0 ? "block" : "none";
     }
   </script>
 
