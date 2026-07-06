@@ -150,6 +150,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 22px;
+      align-items: stretch;
     }
 
     .workflow-card {
@@ -161,10 +162,11 @@
       box-shadow: var(--shadow);
       border: 1px solid rgba(31, 59, 84, 0.08);
       transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-      min-height: 170px;
+      min-height: 190px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      overflow: hidden;
     }
 
     .workflow-card:hover {
@@ -174,11 +176,12 @@
     }
 
     .card-top {
-      display: flex;
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr);
       align-items: flex-start;
       gap: 14px;
     }
-
+    
     .icon {
       width: 44px;
       height: 44px;
@@ -195,8 +198,12 @@
     .workflow-card h3 {
       margin: 0;
       color: var(--hannah-navy);
-      font-size: 20px;
-      line-height: 1.25;
+      font-size: clamp(18px, 1.7vw, 20px);
+      line-height: 1.2;
+      overflow-wrap: anywhere;
+      word-break: normal;
+      hyphens: auto;
+      min-width: 0;
     }
 
     .workflow-card p {
@@ -204,10 +211,12 @@
       margin: 14px 0 0;
       font-size: 14px;
       line-height: 1.45;
+      overflow-wrap: anywhere;
     }
 
     .open-link {
-      margin-top: 18px;
+      margin-top: auto;
+      padding-top: 18px;
       color: var(--hannah-blue);
       font-weight: 800;
       font-size: 14px;
@@ -283,7 +292,7 @@
   <main>
 
     <section class="workflow-category">
-      <h2>🚨 Emergency Presentations</h2>
+      <h2>Emergency Presentations</h2>
       <div class="workflow-grid">
 
         <a href="respiratory-distress.html" class="workflow-card">
@@ -330,7 +339,7 @@
     </section>
 
     <section class="workflow-category">
-      <h2>🍽 Gastrointestinal</h2>
+      <h2>Gastrointestinal</h2>
       <div class="workflow-grid">
 
         <a href="acute-vomiting.html" class="workflow-card">
@@ -369,7 +378,7 @@
     </section>
 
     <section class="workflow-category">
-      <h2>🫁 Respiratory</h2>
+      <h2>Respiratory</h2>
       <div class="workflow-grid">
 
         <a href="respiratory-distress.html" class="workflow-card">
@@ -400,7 +409,7 @@
     </section>
 
     <section class="workflow-category">
-      <h2>💧 Urinary</h2>
+      <h2>Urinary</h2>
       <div class="workflow-grid">
 
         <a href="dysuria-incontinence.html" class="workflow-card">
@@ -431,7 +440,7 @@
     </section>
 
     <section class="workflow-category">
-      <h2>👁 Skin / Eyes / Ears</h2>
+      <h2>Skin/Eyes/Ears</h2>
       <div class="workflow-grid">
 
         <a href="pruritis.html" class="workflow-card">
@@ -462,7 +471,7 @@
     </section>
 
     <section class="workflow-category">
-      <h2>🩹 Musculoskeletal / Soft Tissue</h2>
+      <h2>Musculoskeletal/Soft Tissue</h2>
       <div class="workflow-grid">
 
         <a href="lameness.html" class="workflow-card">
@@ -485,7 +494,7 @@
     </section>
 
     <section class="workflow-category">
-      <h2>🧬 Endocrine / Metabolic</h2>
+      <h2>Endocrine/Metabolic</h2>
       <div class="workflow-grid">
 
         <a href="elevated-alp.html" class="workflow-card">
@@ -516,7 +525,7 @@
     </section>
 
     <section class="workflow-category">
-      <h2>🌡 Systemic Disease</h2>
+      <h2>Systemic Disease</h2>
       <div class="workflow-grid">
 
         <a href="fever-unknown-origin.html" class="workflow-card">
