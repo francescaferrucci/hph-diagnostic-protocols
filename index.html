@@ -251,7 +251,7 @@
       <input
         type="text"
         id="workflowSearch"
-        placeholder="Search workflows by condition..."
+        placeholder="Search by symptom, presenting complaint, diagnosis, or keyword..."
         onkeyup="filterWorkflows()"
       />
     </div>
@@ -452,13 +452,13 @@
         <div class="open-link">Open workflow →</div>
       </a>
 
-      <a href="respiratory-distress.html">Respiratory Distress</a>
-       <div>
+      <a href="respiratory-distress.html" class="workflow-card">
+        <div>
           <div class="card-top">
-            <div class="icon">⚡</div>
+            <div class="icon">🫁</div>
             <h3>Respiratory Distress</h3>
           </div>
-          <p>Diagnostic workflow for respiratory distress.</p>
+          <p>Emergency workflow for difficulty breathing or labored breathing.</p>
         </div>
         <div class="open-link">Open workflow →</div>
       </a>
@@ -525,13 +525,57 @@
   </footer>
 
   <script>
+    const workflowIndex = {
+      "anemia.html": "anemia anaemia pale mucous membranes pale mucus membranes pale gums white gums bleeding blood loss hemorrhage low pcv low hct low hematocrit weakness collapse toxin pyometra",
+      "acute-vomiting.html": "acute vomiting vomiting vomit puke throwing up nausea retching productive vomiting non productive vomiting foreign body obstruction suspected foreign body vomiting more than 48 hours",
+      "anorexia.html": "anorexia not eating won't eat will not eat off food loss of appetite poor appetite inappetence not eating 48 hours not eating 72 hours",
+      "ascites.html": "ascites fluid abdomen fluid belly swollen abdomen distended abdomen abdominal swelling pot belly abdominal fluid effusion",
+      "coughing.html": "cough coughing hacking gagging honking kennel cough dry cough productive cough tracheal collapse respiratory",
+      "diarrhea.html": "diarrhea diarrhoea loose stool soft stool bloody diarrhea bloody stool melena hematochezia puppy diarrhea no defecation straining to defecate constipation",
+      "dysuria-incontinence.html": "dysuria incontinence urinary accident urinary leakage dribbling urine blood in urine hematuria can't pee cannot urinate not urinating no urination blocked cat urinary obstruction straining to urinate painful urination",
+      "ehrlichiosis-e-canis.html": "ehrlichiosis ehrlichia e canis tick disease tick bite tick fever ehrlichia canis vector borne disease",
+      "elevated-alkaline-phosphatase.html": "alp alkaline phosphatase elevated alp high alp alk phos liver enzymes high liver values cholestasis",
+      "fever-unknown-origin.html": "fever fuo fever unknown origin high temperature unknown fever persistent fever",
+      "growth-lump.html": "growth lump mass tumor tumour skin mass skin growth swelling bump nodule tumor suspect cancer",
+      "lameness.html": "lameness limping limp won't bear weight broken bone fracture dislocation sprain injury leg pain vehicular trauma paresis paralysis",
+      "malaise.html": "malaise lethargy tired weak not acting normal quiet depressed not feeling well fatigue",
+      "otic-disorder.html": "ear ears ear infection otic otitis ear odor ear smell ear discharge head shaking scratching ears ear pain hematoma",
+      "polyuria-polydipsia.html": "polyuria polydipsia pu pd pupd drinking more drinking excessively peeing more urinating more increased thirst increased urination water intake",
+      "pruritis.html": "pruritis pruritus itching itchy skin itchy scratching licking paws chewing paws skin allergy allergy rash hot spot hair loss",
+      "red-eye.html": "red eye eye redness red eyes conjunctivitis eye discharge squinting painful eye cloudy eye eye injury",
+      "respiratory-distress.html": "respiratory distress difficulty breathing labored breathing hard breathing dyspnea dyspnoea can't breathe cannot breathe open mouth breathing cyanosis blue gums oxygen shortness of breath",
+      "seizures.html": "seizure seizures convulsion convulsions fit epilepsy cluster seizure status epilepticus collapse tremors neurologic toxin",
+      "sneezing-nasal-discharge.html": "sneezing nasal discharge runny nose nasal drainage nasal congestion reverse sneeze reverse sneezing upper respiratory uri stuffy nose",
+      "suspected-canine-hypothyroidism.html": "hypothyroidism hypothyroid low thyroid thyroid weight gain hair loss alopecia lethargy dog thyroid canine hypothyroidism",
+      "suspected-feline-hyperthyroidism.html": "hyperthyroidism hyperthyroid high thyroid cat thyroid feline hyperthyroidism weight loss ravenous appetite thyroid disease",
+      "urine-protein-creatinine-ratio.html": "urine protein proteinuria upc urine protein creatinine ratio protein in urine kidney disease renal disease ckd albuminuria"
+    };
+  
+    function normalizeText(text) {
+      return text
+        .toLowerCase()
+        .replace(/mucus/g, "mucous")
+        .replace(/can't/g, "cannot")
+        .replace(/[^a-z0-9\s]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+  
     function filterWorkflows() {
-      const input = document.getElementById("workflowSearch").value.toLowerCase();
+      const input = normalizeText(document.getElementById("workflowSearch").value);
       const cards = document.querySelectorAll(".workflow-card");
-
+  
       cards.forEach(card => {
-        const text = card.innerText.toLowerCase();
-        card.style.display = text.includes(input) ? "flex" : "none";
+        const href = card.getAttribute("href");
+        const cardText = normalizeText(card.innerText);
+        const keywords = normalizeText(workflowIndex[href] || "");
+        const searchableText = cardText + " " + keywords;
+  
+        if (!input || searchableText.includes(input)) {
+          card.style.display = "flex";
+        } else {
+          card.style.display = "none";
+        }
       });
     }
   </script>
