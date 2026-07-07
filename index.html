@@ -465,13 +465,56 @@
         onkeyup="filterWorkflows()"
       />
     </div>
+    <section class="hero">
+
+    <div class="eyebrow">Hannah Pet Hospital</div>
+
+    <h1>PetNurse Diagnostic Workflow Center</h1>
+
+    <p>
+        Search by presenting complaint, symptom, diagnosis, or body system to find the appropriate
+        protocol-aligned diagnostic workflow.
+    </p>
+
+    <div class="search-wrap">
+        <input
+            type="text"
+            id="workflowSearch"
+            placeholder="Search: pale gums, vomiting, can't pee, itchy skin, difficulty breathing..."
+            onkeyup="filterWorkflows()"
+        />
+    </div>
+
+    <!-- INSERT THE QUICK ACTIONS HERE -->
 
     <div class="quick-actions">
-      <button type="button" onclick="openWizard()">🧭 Start Guided Triage</button>
-      <a href="https://form.jotform.com/261380809696065" target="_blank">Diagnostic &amp; Requisition Form</a>
-      <a href="Form - Hannah Diagnostic Testing Protocols(1).pdf" target="_blank">Diagnostic Testing Protocols</a>
-      <a href="respiratory-distress.html">Respiratory Distress</a>
-      <a href="dysuria-incontinence.html">Blocked Cat/Can’t Urinate</a>
+
+        <button class="btn-blue" onclick="openWizard()">
+            🧭 Start Guided Triage
+        </button>
+
+        <a href="https://form.jotform.com/261380809696065"
+           target="_blank"
+           class="btn-orange">
+           Diagnostic Request Form
+        </a>
+
+        <a href="Form - Hannah Diagnostic Testing Protocols(1).pdf"
+           target="_blank"
+           class="btn-navy">
+           Diagnostic Testing Protocols
+        </a>
+
+        <a href="respiratory-distress.html"
+           class="btn-red">
+           Respiratory Distress
+        </a>
+
+        <a href="dysuria-incontinence.html"
+           class="btn-green">
+           Blocked Cat/Can't Urinate
+        </a>
+
     </div>
   </section>
 
